@@ -18,6 +18,9 @@
 #pragma output CRT_ENABLE_RESTART = 1
 
 // Código local
+// Si necesitamos código en páginas de memoria hay que compilarlas como .bin y añadirlas aquí como extern
+// Se llaman desde el código usando: setRAMpage (n) y llamando a la función, al terminar hay que volver siempre a la página 0
+
 char respuestas();
 char respuestas_post();
 char proceso1();
@@ -38,14 +41,20 @@ img_t imagenes_t [] =
     };
 
 // Tabla de localidades de la aventura
-
+// 250 to 255 reservadas
 // Regiones del juego...
+// unsigned char *name;
+//	unsigned char *descripcion;
+//	unsigned char id;
+//  unsigned char visitado
+//	unsigned long int atributos; // 32bit
 
+// última localidad como ID 0 
 loc_t localidades_t [] =
 {
 	// L1     
-	{"","",1}, 
-    {"","",0}
+	{"","",1, FALSE, 0x00000000}, 
+    {"","",0, FALSE, 0x00000000}
 };
 
 // Localidades para contenedores
@@ -61,7 +70,7 @@ cnx_t conexiones_t [] =
 	};
 
 // Tabla de mensajes de la aventura
-
+// 1 to 255
 token_t mensajes_t [] =
 {
 	{"No puedo ver nada, está muy oscuro.",0}
@@ -155,6 +164,7 @@ token_t mensajesSistema_t [] =
 
 // Tablas de vocabulario
 // Nombre propios, sustantivos...
+// último elemento debe ser 0
 
 token_t nombres_t [] =
 {
@@ -194,6 +204,7 @@ token_t nombres_t [] =
 	{"conta",       15},
 	{"turno",       16},
     {"todo",        20},
+	{"linterna",	n_linterna},
     {"",0}
 };
 
@@ -567,13 +578,19 @@ token_t verbos_t [] =
 };
 
 // Tabla de objetos
+// No existe la limitación de PAWS donde el objeto 1 siemmpre es la fuente de luz 
+// La luz en ngpaws se calcula en función del atributo de los objetos presentes en la localidad, puestos y llevados.
+
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {1, LOCATION_NONCREATED,"linterna",     n_linterna,EMPTY_WORD,   1,0x0000 | aLight | aSwitchable | aFemale  },  
+    {o_linterna, LOCATION_NONCREATED,"linterna",     n_linterna,EMPTY_WORD,   1,0x0000 | aLight | aSwitchable | aFemale  },  
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x0000}
 }; // Tabla de objetos de la aventura
 
+// ----------------------------------------------------------------
+// Tabla de respuestas
+// ----------------------------------------------------------------
 char respuestas()
 {
  //setRAMPage(0);
@@ -586,6 +603,11 @@ char respuestas()
 
  return FALSE;
 }
+
+// ----------------------------------------------------------
+// Tabla de respuestas-post
+// Se llama después de ejecutar con éxito una entrada de la tabla de respuestas
+// ----------------------------------------------------------
 
 char respuestas_post()
 {
@@ -611,7 +633,7 @@ char proceso1_post() // Después de la descripción
  //proceso1_post_pagina0();
 }
 
-char proceso2() // Después de cada turno
+char proceso2() // Después de cada turno, haya tenido o no la entrada en la tabla de respuestas
 {
  //setRAMPage(0);
  //proceso2_pagina0();
