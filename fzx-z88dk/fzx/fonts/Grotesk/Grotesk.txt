@@ -1,3 +1,0 @@
-Grotesk 24pt Condensed Bold
-copyright (c) 2013 Andrew Owen
-- a headline font inspired by Hermann Zapf

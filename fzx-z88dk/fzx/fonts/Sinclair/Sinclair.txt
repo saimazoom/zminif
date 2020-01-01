@@ -1,3 +1,0 @@
-Sinclair 9pt Roman by Steve Vickers
-copyright (c) 1982 Amstrad, plc.
-- a proportional version of the Spectrum system font

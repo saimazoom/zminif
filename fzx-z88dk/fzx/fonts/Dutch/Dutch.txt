@@ -1,3 +1,0 @@
-Dutch 9pt Roman
-copyright (c) 1996 Andrew Owen
-- a serif font inspired by Times Roman

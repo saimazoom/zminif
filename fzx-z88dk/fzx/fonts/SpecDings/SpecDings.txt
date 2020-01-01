@@ -1,3 +1,0 @@
-SpecDings
-copyright (c) 2013 Andrew Owen
-- a dingbats font inspired by Rick Dickinson
