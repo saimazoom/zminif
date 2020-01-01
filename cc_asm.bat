@@ -23,7 +23,7 @@ D:\devel\Python27\python-2.7.13.amd64\python.exe textool.py -r t -i juegoc.txt -
 @echo ===================================
 
 
-zcc --no-crt crt0_base.asm printlib.asm .\libgfx\libgfx.c parser.c juego_compressed.c -o parser.bin -vn -O3  -lzx7 -m -cleanup
+zcc --no-crt crt0_base.asm printlib.asm .\libgfx\libgfx.c parser.c juego_compressed.c -o parser.bin -vn -O3  -lzx7 -m -a
 copy parser.def parser_def.asm
 
 

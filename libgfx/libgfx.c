@@ -3,8 +3,11 @@
 #include <string.h>
 
 
+struct fzx_state fzx;   // active fzx state
+
 void setRAMPage (BYTE banco)
 {
+/*
     #asm
 ;-----------------------------------------------------------------------
 ; SetRAMPage: Establece un banco de memoria sobre $c000
@@ -24,11 +27,12 @@ void setRAMPage (BYTE banco)
      out    (C), A
 ;     ret
     #endasm
+*/
 }
 
 void setRAMBack()
 {
-
+/*
 #asm
     ld      A, ($5B5C)
     and     $F8
@@ -41,7 +45,7 @@ void setRAMBack()
     ;ld i,a
     ;ei
 #endasm
-
+*/
 }
 
 
@@ -179,8 +183,10 @@ void drawRectangle (BYTE xorig, BYTE yorig, BYTE width, BYTE height)
    // ZZZ: Caracter 0-7 Fila
    // CCCC: Columna 0-31
 
+// 29.12.2019: La rutina no funciona correctamente y se queda bloqueada. 
 void clsScreen (BYTE effect)
 {
+     /*
 	switch (effect)
 	{
 		case 0: // Persiana arriba-abajo
@@ -281,15 +287,19 @@ inicio:     ld 		(hl), $FF		; Pone el Caracter actual a todo 1
         #endasm
         break;
 	}
+     */
 }
 
-void drawGFX (BYTE gfxnum, BYTE xorig, BYTE yorig)
+void drawGFX (BYTE *pointer, BYTE xorig, BYTE yorig)
 {
-// Cambia de banco
 // Vuelca la pantalla
 // Vuelve al banco 0
 }
 
+void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE height)
+{
+
+}
 
 void waitForAnyKey()
 {
@@ -313,6 +323,48 @@ void waitForNoKey()
        INC A
        JR NZ, Wait_For_Keys_NotPressed
 #endasm
+}
+
+// Produces a random number between 0-65535
+WORD randomNumber()
+{
+     /*
+#asm
+     ; http://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Random
+     ; Xorshift is a class of pseudorandom number generators discover by George Marsaglia and detailed in his 2003 paper, Xorshift RNGs. 
+     ; 16-bit xorshift pseudorandom number generator by John Metcalf
+     ; 20 bytes, 86 cycles (excluding ret)
+     ; returns   hl = pseudorandom number
+     ; corrupts   a
+     ; generates 16-bit pseudorandom numbers with a period of 65535
+     ; using the xorshift method:
+     ; hl ^= hl << 7
+     ; hl ^= hl >> 9
+     ; hl ^= hl << 8
+     ; some alternative shift triplets which also perform well are:
+     ; 6, 7, 13; 7, 9, 13; 9, 7, 13.
+
+xrnd:
+     ld hl,1       ; seed must not be 0
+     ld a,h
+     rra
+     ld a,l
+     rra
+     xor h
+     ld h,a
+     ld a,l
+     rra
+     ld a,h
+     rra
+     xor l
+     ld l,a
+     xor h
+     ld h,a
+
+     ld (xrnd+1),hl
+     RET
+#endasm
+*/
 }
 
 unsigned char getKey()
@@ -376,7 +428,7 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
    // Input: x 0 to 31 0000 0000 to 0001 1111
    //        y 0 to 23 0000 0000 to 0001 0111
-   // Formato de memoria de vï¿½deo: 010xxYYY ZZZCCCCC
+   // Formato de memoria de vídeo: 010xxYYY ZZZCCCCC
    // xx: Tercio
    // YYY: Scan Line 0-7
    // ZZZ: Fila 0-7 del tercio
@@ -386,32 +438,22 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // Tercio 2 8-15-> 0x08 a 0x0F -> 0100 1000 a 0000 1111
    // Tercio 3 16-23->0x10 a 0x17 -> 0101 0000 a 0001 1111
 
-   // Pone a 0 los bits del caracter
-   BYTE i;
-   BYTE *video = (BYTE*)(0x4000|( (y&0x18)<<8) | ((y&0x07)<<5)| x); // Direcciï¿½n base
-   BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Direcciï¿½n base
-
-   for (i=0;i<8;i++)
-   {
-        *video = 0x00;
-        video+=256;
-   }
-   // Setea el atributo
-   *attr = color;
+    print_char (x,y,' ');
+    set_attr (x,y,color);
 }
 
 void clear_screen (BYTE color)
 {
 // Pasar esto a asm...
- memset(16384, 0, 6144);    // Pï¿½xeles...
- memset(22528, color, 768); // Atributos
- #asm
- ;; Set border colour to black
-	ld a,0x06
-	out ($fe),a
- #endasm
+     memset(16384, 0, 6144);    // Pï¿½xeles...
+     memset(22528, color, 768); // Atributos
+     // The quickest and simplest way to set the border colour is to write to port 254. The 3 least significant bits of the byte we send determine the colour.
+     #asm
+     ;; Set border colour to black
+          ld a,0x00
+          out ($fe),a
+     #endasm
 }
-
 
 void putpixel (BYTE x, BYTE y, BYTE value)
 {
@@ -432,3 +474,21 @@ void putpixel (BYTE x, BYTE y, BYTE value)
    // CCCC: Columna 0-31
 
 }
+
+int  fzx_setat(unsigned char x, unsigned char y)
+{
+     fzx.x = x;
+     fzx.y = y;
+}
+
+int fzx_putc(unsigned char c)
+{
+    print_char (fzx.x, fzx.y, c);
+}
+
+int fzx_puts(char *s)
+{
+     print_string (fzx.x, fzx.y, s);
+}
+
+
