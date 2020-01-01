@@ -1,7 +1,13 @@
+
 TODO: 
-
-
+- C64 version with cc65 -> Use defines so we don't need to branch the code. 
+- Size optimization 
+- C64: multicolor + charmode horizontal split screen 
+- Spectrum: vertical scroll with attributes    
 
 01.01.2020
-
+v0.2 
 > Clean-up of parser after the release of ZHL por Spectrum 48K
+Currently the parser sits at 18027bytes to be further optimized...
+
+
