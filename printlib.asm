@@ -48,7 +48,7 @@ PUBLIC _set_attr
 _reynolds:
 ;BINARY "../res/L01_sala_trampa_sp.scr.rcs.zx7"
 ;BINARY "./res/Reynolds Bold.chr"
-BINARY "./res/Reynolds.chr"
+;BINARY "./res/Reynolds.chr"
 
 ; =====================================================================
 ; extern void print_string (BYTE x, BYTE y, unsigned char *texto);
@@ -183,8 +183,8 @@ Pixel_Address_Up:	DEC H			; Go up onto the next pixel line
 ; DE: Screen address to print character at
 ;
 Print_Char:		
-            ;LD HL,$3C00			; Address of character set table in ROM
-			LD HL, _reynolds-32*8
+            LD HL,$3C00			; Address of character set table in ROM
+			;LD HL, _reynolds-32*8
             LD B,0				; Set BC to A
 			LD C,A
 			AND $FF				; Clear the carry bit
@@ -214,7 +214,7 @@ Print_Char_1:		LD A,(HL)			; Get the byte from the ROM into A
 ; =====================================================================
 ;extern void __CALLEE__ set_attr (BYTE x, BYTE Y, BYTE attr);
 ; http://www.breakintoprogram.co.uk/computers/zx-spectrum/screen-memory-layout
-; BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Dirección base
+; BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Direcciï¿½n base
 ; =====================================================================
 
 _set_attr:

@@ -1,8 +1,8 @@
 /*
  ZMiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
- (c) 2016. Written by KMBR.
- v0.1
+ Written by KMBR.
+ v0.2
 
  License
 -----------------------------------------------------------------------------------
