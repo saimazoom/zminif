@@ -51,7 +51,12 @@ Comandos de depuración
 #include "parser_defs.h"
 #include "juego_flags.h"
 #include "parser.h"
-#include "zx7.h"
+
+// Graphics compressor 
+#ifndef C64
+    #include "zx7.h"
+#endif
+
 #include ".\libgfx\libgfx.h"
 
 // Funciones externas
@@ -1745,8 +1750,9 @@ void  ACCpicture(BYTE picid)
 	BYTE picpos;
 	picpos = get_img_pos(picid);
     if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
-    dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
-    //dzx7SmartRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
+    #ifndef C64
+        dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
+    #endif
     if (imagenes_t[picpos].page!=0) setRAMBack();
 }
 

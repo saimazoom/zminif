@@ -8,13 +8,17 @@
 -----------------------------------------------------------------------------------
  Released under the the GPL v2 or later license.
 -----------------------------------------------------------------------------------
-
-
 FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
+FASTCALL CC65: https://www.cc65.org/doc/cc65-5.html
+There is no __CALLEE__ in CC65
 
 */
 
-// Parser structures
+#ifdef C64 
+	#define __FASTCALL__ __fastcall__
+	#define __CALLEE__ 
+#endif 
+
 
 // Parser Structures
 typedef struct {
@@ -145,7 +149,12 @@ extern void __FASTCALL__ ACCmessage(BYTE mesid);
 extern void __FASTCALL__ ACCmes (BYTE mesid);
 extern void __FASTCALL__ ACCwrite (unsigned char *texto);
 extern void __FASTCALL__ ACCwriteln (unsigned char *texto);
-
+extern void ACCinven ();
+extern void ACCautog ();
+extern void ACCautod ();
+extern void ACCscore ();
+extern void ACCturns ();
+extern void ACCability(BYTE maxObjectsCarried, BYTE maxWeightCarried);
 
 // Library functions for the parser
 void writeValue (unsigned int value);
@@ -199,5 +208,5 @@ void debugger ();
 void setConnection (BYTE loc_orig, BYTE value, BYTE loc_dest);
 BYTE getConnection (BYTE loc_orig, BYTE value);
 extern void incr16bit (BYTE *pointer);
-
+void ACCGetWord (BYTE wordnum);
 

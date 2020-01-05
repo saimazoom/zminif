@@ -1,9 +1,21 @@
 
 TODO: 
-- C64 version with cc65 -> Use defines so we don't need to branch the code. 
+- C64: Charmode en ventana
+- C64: Dividir los ficheros gráficos en bitmap, screen ram y color ram y comprimirlos por separado. 
+- C64: Cargador de gráficos optimizado y descompresión directamente en los buffer de video
+- C64: multicolor bitmap + charmode horizontal split screen 
 - Size optimization 
-- C64: multicolor + charmode horizontal split screen 
 - Spectrum: vertical scroll with attributes    
+
+05.01.2020 
+> Estoy apendiendo lo que necesito para pasar a ASM la librería de bajo nivel. Voy a meter todo el código ASM en un fichero único: libgfx.asm. Luego haré lo mismo para la versión de ZX Spectrum. Eliminaré el libgfx-c pues sólo se trata de código ASM embebido en C. 
+
+>
+
+
+
+03.01.2020
+> Juego.c compilado sin problemmas con CC65 
 
 01.01.2020
 v0.2 

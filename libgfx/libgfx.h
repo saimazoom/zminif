@@ -1,6 +1,8 @@
 
 #define BYTE unsigned char
 #define WORD unsigned int
+
+
 #define INK_BLACK      0x00
 #define INK_BLUE       0x01
 #define INK_RED        0x02
@@ -40,6 +42,8 @@ extern void setRAMBack();
 extern void drawGFX (BYTE *pointer, BYTE xorig, BYTE yorig);
 extern void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE height);
 extern WORD __CALLEE__ randomNumber(); 
+extern unsigned char getKey();
+
 
 ///////////////////////////////////////////////////////////
 //                  DATA STRUCTURES                      //

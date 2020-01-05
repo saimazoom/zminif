@@ -1,7 +1,5 @@
-// ZHL. Escrita por KMBR.
-// 2016-2019 KMBR
-// This code is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)  license.
-// http://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
 
 #include <string.h>
 #include "parser_defs.h"
@@ -10,17 +8,26 @@
 // Flags del Juego
 #include "juego_flags.h"
 
-/* Allocate space for the stack */
+// Librería gráfica
+#include "./libgfx/libgfx.h"
 
-#pragma output STACKPTR=24200
-#pragma -reqpag=0
-#pragma -no-expandz88
-#pragma output CRT_ENABLE_CLOSE = 0    // do not close open files on exit (at this time this has no effect)
-#pragma output CLIB_EXIT_STACK_SIZE = 0   // get rid of the exit stack (no functions can be registered with atexit() )
-#pragma output CLIB_MALLOC_HEAP_SIZE = 0  // malloc's heap will not exist
-#pragma output CLIB_STDIO_HEAP_SIZE = 0  // stdio's heap will not exist (you will not be able to open files)
-#pragma output CLIB_FOPEN_MAX = -1  // don't even create the open files list
-#pragma output CRT_ENABLE_RESTART = 1
+// Compiler options for ZX Spectrum
+#ifndef C64
+	/* Allocate space for the stack */
+	#pragma output STACKPTR=24200
+	#pragma -reqpag=0
+	#pragma -no-expandz88
+	#pragma output CRT_ENABLE_CLOSE = 0    // do not close open files on exit (at this time this has no effect)
+	#pragma output CLIB_EXIT_STACK_SIZE = 0   // get rid of the exit stack (no functions can be registered with atexit() )
+	#pragma output CLIB_MALLOC_HEAP_SIZE = 0  // malloc's heap will not exist
+	#pragma output CLIB_STDIO_HEAP_SIZE = 0  // stdio's heap will not exist (you will not be able to open files)
+	#pragma output CLIB_FOPEN_MAX = -1  // don't even create the open files list
+	#pragma output CRT_ENABLE_RESTART = 1
+#endif 
+
+// Compiler options for C64
+#ifdef C64
+#endif 
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Código local
@@ -44,17 +51,19 @@ extern BYTE gWord_number; // Marker for current word, 1st word is 1
 extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Tabla de imágenes del juego
-extern unsigned char *L01_img;
+// extern unsigned char *L01_img;
 
-#asm
-_L01_img:
-;BINARY "./res/lPuente07.scr.rcs.zx7"
-#endasm
+// Include binary files for the adventure
+#ifndef C64
+	#asm
+	_L01_img:
+	;BINARY "./res/lPuente07.scr.rcs.zx7"
+	#endasm
+#endif 
 
 // id, page, memory pointer
 // Terminated with 0
 img_t imagenes_t [] = {
-    { 1,0, L01_img},   
     { 0,0,0}
     };
 
@@ -656,7 +665,6 @@ obj_t objetos_t[]=
 char respuestas()
 {
  NOTDONE;
-
 // ================= LIBRERíA BASE FINAL=======================================
 }
 
@@ -752,6 +760,7 @@ char respuestas_post()
 	// Si ninguna acción es válida...
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
+	NOTDONE;
 }
 
 char proceso1() // Antes de la descripción de la localidad...
@@ -765,15 +774,17 @@ char proceso1() // Antes de la descripción de la localidad...
 //	defineTextWindow (0,11,32,14); 
 	// Cálculo de luz
 	flags[flight]=1; // No está oscuro
+	NOTDONE;
 }
 
 char proceso1_post() // Después de la descripción
 {
-
+	NOTDONE;
 }
 
 char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en la tabla de respuestas
 {
+	NOTDONE;
 }
 
 
@@ -784,7 +795,6 @@ void main (void)
 	initParser ();                // Inicializa el parser y la pantalla
 
 // Añadir menú de juego
-	clear_screen(INK_YELLOW | PAPER_BLACK, TRUE);
 	defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
 	flags[LOCATION_MAX] = 8; // Número más alto de localidad
 	ACCability(10,20); // 10 objetos, 20 piedras
@@ -802,10 +812,11 @@ void main (void)
 		main();
 	}
 	// To the void...
+#ifndef C64
 	#asm 
 		jp 0
 	#endasm 
-
+#endif
 }
 
 // ------------------------------------------------------------

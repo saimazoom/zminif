@@ -15,7 +15,7 @@
 // CONSTANTS
 
 // AUX
-// Estilos de fuentes
+// Font styles
 #define NORMAL 0
 #define TITLE 1
 #define PLAYER 2
@@ -27,7 +27,7 @@
 #define DONE ACCdone(); return TRUE
 #define NOTDONE ACCbreak(); return FALSE 
 
-// Spectrum
+// Spectrum definitions
 #define INK_BLACK      0x00
 #define INK_BLUE       0x01
 #define INK_RED        0x02
@@ -53,7 +53,10 @@
 #define COLS_WIDTH		32
 #define ROWS_HEIGHT 	24
 
-// C64 colors
+// C64 definitions
+
+
+
 
 // Global definitions
 // Aux
