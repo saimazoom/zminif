@@ -10,9 +10,6 @@ TODO:
 05.01.2020 
 > Estoy apendiendo lo que necesito para pasar a ASM la librería de bajo nivel. Voy a meter todo el código ASM en un fichero único: libgfx.asm. Luego haré lo mismo para la versión de ZX Spectrum. Eliminaré el libgfx-c pues sólo se trata de código ASM embebido en C. 
 
->
-
-
 
 03.01.2020
 > Juego.c compilado sin problemmas con CC65 
