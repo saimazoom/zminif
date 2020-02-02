@@ -27,36 +27,20 @@
 #define DONE ACCdone(); return TRUE
 #define NOTDONE ACCbreak(); return FALSE 
 
-// Spectrum definitions
-#define INK_BLACK      0x00
-#define INK_BLUE       0x01
-#define INK_RED        0x02
-#define INK_MAGENTA    0x03
-#define INK_GREEN      0x04
-#define INK_CYAN       0x05
-#define INK_YELLOW     0x06
-#define INK_WHITE      0x07
-
-#define PAPER_BLACK    0x00
-#define PAPER_BLUE     0x08
-#define PAPER_RED      0x10
-#define PAPER_MAGENTA  0x18
-#define PAPER_GREEN    0x20
-#define PAPER_CYAN     0x28
-#define PAPER_YELLOW   0x30
-#define PAPER_WHITE    0x38
-
-#define BRIGHT         0x40
-#define FLASH          0x80
-#define SCREEN_WIDTH 	256
-#define SCREEN_HEIGHT 	192 
-#define COLS_WIDTH		32
-#define ROWS_HEIGHT 	24
+#ifndef C64 
+    #define SCREEN_WIDTH 	256
+    #define SCREEN_HEIGHT 	192 
+    #define COLS_WIDTH		32
+    #define ROWS_HEIGHT 	24
+#endif 
 
 // C64 definitions
-
-
-
+#ifdef C64
+    #define SCREEN_WIDTH 	320
+    #define SCREEN_HEIGHT 	200 
+    #define COLS_WIDTH		40
+    #define ROWS_HEIGHT 	24
+#endif
 
 // Global definitions
 // Aux

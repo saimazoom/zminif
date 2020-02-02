@@ -41,14 +41,14 @@
 
 PUBLIC _print_string
 PUBLIC _print_char
-PUBLIC _set_attr
+PUBLIC _setAttr
 
 ; Fonts
 ; Fonts can be edited easily using the fzx font editor, it can import/export .chr files.
 _reynolds:
 ;BINARY "../res/L01_sala_trampa_sp.scr.rcs.zx7"
 ;BINARY "./res/Reynolds Bold.chr"
-;BINARY "./res/Reynolds.chr"
+BINARY "../res/Reynolds.chr"
 
 ; =====================================================================
 ; extern void print_string (BYTE x, BYTE y, unsigned char *texto);
@@ -183,8 +183,8 @@ Pixel_Address_Up:	DEC H			; Go up onto the next pixel line
 ; DE: Screen address to print character at
 ;
 Print_Char:		
-            LD HL,$3C00			; Address of character set table in ROM
-			;LD HL, _reynolds-32*8
+            ;LD HL,$3C00			; Address of character set table in ROM
+			LD HL, _reynolds-32*8
             LD B,0				; Set BC to A
 			LD C,A
 			AND $FF				; Clear the carry bit
@@ -217,7 +217,7 @@ Print_Char_1:		LD A,(HL)			; Get the byte from the ROM into A
 ; BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Direcci�n base
 ; =====================================================================
 
-_set_attr:
+_setAttr:
             POP BC              ; BC = RET ADDRESS
             POP HL              ; HL = L = ATTRIBUTE TO BE SET 
             POP DE              ; DE = E = BYTE Y. Stack width is 16bits. LITTL ENDIAN

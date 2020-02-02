@@ -1,11 +1,25 @@
 
 TODO: 
-- C64: Charmode en ventana
+- C64: utoa no parece funcionar
+- C64: Función para cambiar los atributos de una celda de texto
+- C64: Scroll vertical de la ventana de texto con atributos
 - C64: Dividir los ficheros gráficos en bitmap, screen ram y color ram y comprimirlos por separado. 
 - C64: Cargador de gráficos optimizado y descompresión directamente en los buffer de video
-- C64: multicolor bitmap + charmode horizontal split screen 
 - Size optimization 
 - Spectrum: vertical scroll with attributes    
+
+02.02.2020 
++ Añadiendo funciones para leer el teclado y devolver la tecla pulsada.
++ Añadido print_char
+
+Primera compilación completa en C64: 17024bytes. Muy parecido en tamaño a la versión para ZX Spectrum. 
+
+
+
+20.01.2020
++ C64: High Resolution Bitmap en ventana
++ C64: multicolor bitmap + High Resolution Bitmap split screen 
++ Ya tengo el primer texto impreso. 
 
 05.01.2020 
 > Estoy apendiendo lo que necesito para pasar a ASM la librería de bajo nivel. Voy a meter todo el código ASM en un fichero único: libgfx.asm. Luego haré lo mismo para la versión de ZX Spectrum. Eliminaré el libgfx-c pues sólo se trata de código ASM embebido en C. 

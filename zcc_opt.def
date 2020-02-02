@@ -12,11 +12,6 @@ IF !NEED_floatpack
 ENDIF
 
 
-IF !NEED_floatpack
-	DEFINE	NEED_floatpack
-ENDIF
-
-
 IF !DEFINED_STACKPTR
 	defc	DEFINED_STACKPTR = 1
 	defc STACKPTR = 0x5e88

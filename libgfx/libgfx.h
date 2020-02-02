@@ -291,26 +291,45 @@
    #pragma charmap (254,254);
    #pragma charmap (255,255);
 
+// In C64 ink is in the HIGH nibble in the colormem, PAPER at the low nibble
+
     #define INK_BLACK      0x00
-    #define INK_BLUE       0x01
-    #define INK_RED        0x02
-    #define INK_MAGENTA    0x03
-    #define INK_GREEN      0x04
-    #define INK_CYAN       0x05
-    #define INK_YELLOW     0x06
-    #define INK_WHITE      0x07
+    #define INK_WHITE      0x10
+    #define INK_RED        0x20
+    #define INK_CYAN       0x30
+    #define INK_MAGENTA    0x40
+    #define INK_GREEN      0x50
+    #define INK_BLUE       0x60
+    #define INK_YELLOW     0x70
+    #define INK_LIGHT_BROWN     0x80
+    #define INK_BROWN      0x90
+    #define INK_LIGHT_RED  0xA0
+    #define INK_DARK_GREY  0xB0
+    #define INK_GREY       0xC0
+    #define INK_LIGHT_GREEN 0xD0
+    #define INK_LIGHT_BLUE 0xE0
+    #define INK_LIGHT_GREY 0xF0
 
-    #define PAPER_BLACK    0x00
-    #define PAPER_BLUE     0x08
-    #define PAPER_RED      0x10
-    #define PAPER_MAGENTA  0x18
-    #define PAPER_GREEN    0x20
-    #define PAPER_CYAN     0x28
-    #define PAPER_YELLOW   0x30
-    #define PAPER_WHITE    0x38
+    #define PAPER_BLACK      0x00
+    #define PAPER_WHITE      0x01
+    #define PAPER_RED        0x02
+    #define PAPER_CYAN       0x03
+    #define PAPER_MAGENTA    0x04
+    #define PAPER_GREEN      0x05
+    #define PAPER_BLUE       0x06
+    #define PAPER_YELLOW     0x07
+    #define PAPER_LIGHT_BROWN 0x08
+    #define PAPER_BROWN      0x09
+    #define PAPER_LIGHT_RED  0x0A
+    #define PAPER_DARK_GREY  0x0B
+    #define PAPER_GREY       0x0C
+    #define PAPER_LIGHT_GREEN 0x0D
+    #define PAPER_LIGHT_BLUE 0x0E
+    #define PAPER_LIGHT_GREY 0x0F
 
-    #define BRIGHT         0x40
-    #define FLASH          0x80
+// BRIGHT and FLASH are not supported in C64
+    #define BRIGHT         0x00
+    #define FLASH          0x00
 #endif 
 
 
@@ -318,9 +337,13 @@
 #ifdef C64
    extern void setRamLayout ();
    extern void __FASTCALL__ splitScreen (BYTE scanline);
+   extern void __FASTCALL__ HighResMode(); // 320x200 2 colors per cell
+   extern void __FASTCALL__ clearVideoColorMem (BYTE color); 
+   extern void __FASTCALL__ clearVideoRam (BYTE color); 
+   extern void __FASTCALL__ clearVideoBitmap (BYTE color); // Bitmap memrory
 #endif
 
-extern void __CALLEE__ putPixel (BYTE x, BYTE y);
+extern void __CALLEE__ putPixel (BYTE x, BYTE y, BYTE value);
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);
 extern void __CALLEE__scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);
 extern void __CALLEE__drawRectangle (BYTE xorig, BYTE yorig, BYTE width, BYTE height);
@@ -331,12 +354,8 @@ extern void __CALLEE__drawHline (BYTE x0, BYTE y0, BYTE len);
 extern void __CALLEE__clearchar (BYTE x, BYTE y, BYTE color);
 extern void __CALLEE__ __FASTCALL__ clearScreen (BYTE color);
 extern void __CALLEE__ waitForNoKey();
-
-#ifndef C64
-   extern void setRAMPage (BYTE banco);
-   extern void setRAMBack();
-#endif
-
+extern void setRAMPage (BYTE banco);
+extern void setRAMBack();
 
 extern void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE height);
 extern WORD __CALLEE__ randomNumber(); 
@@ -400,14 +419,14 @@ struct fzx_state
 //                      DRAW TEXT                        //
 ///////////////////////////////////////////////////////////
 // Functions in printlib.asm
-extern int  fzx_setat(unsigned char x, unsigned char y);
-extern int  fzx_putc(unsigned char c);
+extern void fzx_setat(unsigned char x, unsigned char y);
+extern void fzx_putc(unsigned char c);
 
-extern int  fzx_puts(char *s);
-extern int  fzx_write(unsigned int *buf, unsigned int len);
+extern void fzx_puts(char *s);
+extern void fzx_write(unsigned int *buf, unsigned int len);
 
 extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto);
 extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto);
-extern void __CALLEE__ set_attr (BYTE x, BYTE Y, BYTE attr);
+extern void __CALLEE__ setAttr (BYTE x, BYTE Y, BYTE attr);
 
 

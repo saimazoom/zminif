@@ -791,7 +791,7 @@ char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en l
 void main (void)
 {
 	// Inicializar variables
-	clear_screen(INK_BLACK | PAPER_BLACK);
+	clearScreen(INK_BLACK | PAPER_BLACK);
 	initParser ();                // Inicializa el parser y la pantalla
 
 // Añadir menú de juego
@@ -811,6 +811,7 @@ void main (void)
 	{
 		main();
 	}
+	
 	// To the void...
 #ifndef C64
 	#asm 

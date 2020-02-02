@@ -44,9 +44,6 @@ Comandos de depuración
 
 #include <string.h>
 
-//#include "fzx.h"
-//#include "fzxfonts_utz.h"
-
 #include "symbol_list.h"
 #include "parser_defs.h"
 #include "juego_flags.h"
@@ -439,7 +436,7 @@ BYTE ACCNextWord ()
 // Input: 
 //      wordnum: Requested word from the playerInput array (1 is first word)
 // Description: Retrieves in playerWord array the request word. Return 1 if succeed, 0 if failure.
-BYTE ACCGetWord (BYTE wordnum)
+void ACCGetWord (BYTE wordnum)
 {    
     // From the beginning...
     gChar_number = 0;
@@ -741,9 +738,12 @@ switch (flags[fverb])
 
 void writeValue (unsigned int value)
 {
-        unsigned char *valor[6];
+    // CC65 UTOA is not working...
+    unsigned char valor[6];
+    #ifndef C64
         utoa(value,valor,10);
-        writeText (&valor);
+    #endif 
+    writeText (valor);
 }
 
 BYTE buscador (token_t *tabla, unsigned char *word, unsigned char *result) // 180bytes
@@ -1142,7 +1142,7 @@ void  ACCscore()
 
 void  ACCcls()
 {
-	clear_screen (INK_YELLOW|PAPER_BLACK);
+	clearScreen (INK_YELLOW|PAPER_BLACK);
 	fzx.x = TextWindow.x;
 	fzx.y = TextWindow.y;
 }
@@ -1160,10 +1160,11 @@ void  ACCautog()
                 //writeObject (get_obj_pos(objid));
                 //writeText(")");
                 writeSysMessage (SYSMESS_YOUCANNOTTAKE);
-                DONE;
+                ACCdone();
+                return;
             }
         ACCget (objid);
-        return TRUE;
+        return;
     }
 
 	writeSysMessage(SYSMESS_CANTSEETHAT);
@@ -2344,10 +2345,19 @@ void writeTextln (BYTE *texto)
     writeText (texto);
     writeText ("^");
 }
-void  writeText (BYTE *texto) 
-{
+
+#ifdef C64 
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
+#endif
+
+void  writeText (BYTE *texto) 
+{
+    #ifndef C64 
+    BYTE texto_buffer[256];
+    BYTE buffer[20]; // Buffer de palabras
+    #endif 
+
     BYTE counter=0;
     BYTE texto_counter=0;
     BYTE caracter=0;
@@ -2425,7 +2435,7 @@ void  writeMessage (BYTE messno)
    writeText (mensajes_t[messno].word);
 }
 
-// Parámetros en caracteres. 80x25
+// Parámeters are defined in chars.
 void defineGraphWindow (BYTE x, BYTE y, BYTE width, BYTE height)
 {
     /*
@@ -2436,7 +2446,7 @@ void defineGraphWindow (BYTE x, BYTE y, BYTE width, BYTE height)
     */
 }
 
-// Parámetros en caracteres. 80x25 (0 to 79, 0 to 24)
+// Parámeters are defined in chars.
 void defineTextWindow (BYTE x, BYTE y, BYTE width, BYTE height)
 {
     TextWindow.x = x;
@@ -2473,7 +2483,7 @@ void  clearTextWindow (BYTE color, BYTE clear)
         for (a=TextWindow.x;a<(TextWindow.x+TextWindow.width);++a)
         {
             if  (clear==TRUE) clearchar (a,b,color);
-                else set_attr (a,b,color);
+                else setAttr (a,b,color);
         }
     }
 }
@@ -2682,14 +2692,14 @@ void ACCputin(BYTE objid, BYTE obj2id)
 			writeSysMessage(SYSMESS_YOUAREALREADYWEARINGTHAT);
             writeObject(objpos);
             writeText (". ^");
-			return FALSE;
+			return;
     }
 
     if (objetos_t[objpos].locid == loc_here())
     {
 			writeSysMessage(SYSMESS_YOUDONTHAVEOBJECT);
             ACCnewline();
-			return FALSE;
+			return;
 
     }
     if (objetos_t[objpos].locid == LOCATION_CARRIED)
@@ -2714,9 +2724,9 @@ void ACCputin(BYTE objid, BYTE obj2id)
 			writeSysMessage(SYSMESS_PUTINTAKEOUTTERMINATION);
             ACCnewline();
 			//ACCdone();
-			return TRUE;
+			return;
 	}
-    return FALSE;
+    return;
 }
 
 
@@ -2732,7 +2742,7 @@ void ACCtakeout(BYTE objid, BYTE obj2id)
 			writeSysMessage(SYSMESS_YOUALREADYHAVEOBJECT);
 			ACCnewline();
 			ACCdone();
-			return FALSE;
+			return;
     }
 
     if (objetos_t[objpos].locid == loc_here())
@@ -2744,7 +2754,7 @@ void ACCtakeout(BYTE objid, BYTE obj2id)
             } else
                 writeSysMessage (SYSMESS_YOUCANTTAKEOBJECTOUTOF);
             ACCnewline();
-			return FALSE;
+			return;
 
     }
 
@@ -2752,21 +2762,21 @@ void ACCtakeout(BYTE objid, BYTE obj2id)
     {
         writeSysMessage(SYSMESS_WEIGHSTOOMUCH);
         ACCnewline();
-        return FALSE;
+        return;
     }
 
     if (flags[fobjects_carried_count]  > flags[fmaxobjects_carried])
     {
         writeSysMessage(SYSMESS_CANTCARRYANYMORE);
         ACCnewline();
-        return FALSE;
+        return;
     }
 
 
 	setObjectLocation(objpos, LOCATION_CARRIED);
 	writeSysMessage(SYSMESS_YOUTAKEOBJECT);
 	ACCnewline();
-    return TRUE;
+    return;
 }
 
 void incr16bit (BYTE *pointer)

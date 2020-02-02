@@ -1,7 +1,13 @@
 
-#include ".\libgfx\libgfx.h"
-#include <string.h>
+// Each compiler has its own 'manias'
 
+#ifdef C64
+     #include "./libgfx.h"
+#else 
+     #include "./libgfx/libgfx.h"
+#endif 
+
+// #include <string.h>
 
 struct fzx_state fzx;   // active fzx state
 
@@ -13,7 +19,7 @@ void setRAMPage (BYTE banco)
 ; SetRAMPage: Establece un banco de memoria sobre $c000
 ; Entrada: B = banco (0-7) a paginar entre $c000-$ffff
 ;-----------------------------------------------------------------------
-; Extra�do del Manual de Usuario de Spectrum, P�gina 221
+; Extraído del Manual de Usuario de Spectrum, Página 221
 ;
      ld     hl, $0002
      add    hl, sp
@@ -48,35 +54,18 @@ void setRAMBack()
 */
 }
 
+#ifndef C64
 
-
-void drawVline (BYTE x0, BYTE y0, BYTE len)
-{
-
-}
-
-void drawHline (BYTE x0, BYTE y0, BYTE len)
-{
-
-}
-
-void drawline (BYTE x0, BYTE y0, BYTE len)
-{
-
-}
-
-   // Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
-   // xx: Tercio
-   // YYY: Scan Line 0-7
-   // ZZZ: Caracter 0-7 Fila
-   // CCCC: Columna 0-31
+// Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
+// xx: Tercio
+// YYY: Scan Line 0-7
+// ZZZ: Caracter 0-7 Fila
+// CCCC: Columna 0-31
 /*
  Tercio 0
  Tercio 1 18432 0x4800
  Tercio 2
-
 */
-
 void scrollArriba (BYTE fila_inicial, BYTE columna_inicial)
 {
     // ScrollVertical de 1 fila partiendo de una fila inicial
@@ -428,7 +417,7 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
    // Input: x 0 to 31 0000 0000 to 0001 1111
    //        y 0 to 23 0000 0000 to 0001 0111
-   // Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
+   // Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
    // xx: Tercio
    // YYY: Scan Line 0-7
    // ZZZ: Fila 0-7 del tercio
@@ -439,10 +428,10 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // Tercio 3 16-23->0x10 a 0x17 -> 0101 0000 a 0001 1111
 
     print_char (x,y,' ');
-    set_attr (x,y,color);
+    setAttr (x,y,color);
 }
 
-void clear_screen (BYTE color)
+void clearScreen (BYTE color)
 {
 // Pasar esto a asm...
      memset(16384, 0, 6144);    // P�xeles...
@@ -455,7 +444,7 @@ void clear_screen (BYTE color)
      #endasm
 }
 
-void putpixel (BYTE x, BYTE y, BYTE value)
+void putPixel (BYTE x, BYTE y, BYTE value)
 {
     // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
 	// http://www.z88dk.org/forum/viewtopic.php?id=9177
@@ -474,19 +463,20 @@ void putpixel (BYTE x, BYTE y, BYTE value)
    // CCCC: Columna 0-31
 
 }
+#endif 
 
-int  fzx_setat(unsigned char x, unsigned char y)
+void fzx_setat(unsigned char x, unsigned char y)
 {
      fzx.x = x;
      fzx.y = y;
 }
 
-int fzx_putc(unsigned char c)
+void fzx_putc(unsigned char c)
 {
     print_char (fzx.x, fzx.y, c);
 }
 
-int fzx_puts(char *s)
+void fzx_puts(char *s)
 {
      print_string (fzx.x, fzx.y, s);
 }
