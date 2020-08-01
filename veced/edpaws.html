@@ -1,0 +1,369 @@
+<html>
+<script type="text/javascript">
+
+// El editor funciona pintando el contenido de la cola de comandos.
+// La cola de comandos se muestra por pantalla de modo que podemos
+// modificarla en tiempo real para obtener distintos resultados.
+
+keyCharToCode = {"Backspace":8,"Tab":9,"Enter":13,"Shift":16,"Ctrl":17,"Alt":18,"Pause/Break":19,"Caps Lock":20,"Esc":27,"Space":32,"Page Up":33,"Page Down":34,"End":35,"Home":36,"Left":37,"Up":38,"Right":39,"Down":40,"Insert":45,"Delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,"A":65,"B":66,"C":67,"D":68,"E":69,"F":70,"G":71,"H":72,"I":73,"J":74,"K":75,"L":76,"M":77,"N":78,"O":79,"P":80,"Q":81,"R":82,"S":83,"T":84,"U":85,"V":86,"W":87,"X":88,"Y":89,"Z":90,"Windows":91,"Right Click":93,"Numpad 0":96,"Numpad 1":97,"Numpad 2":98,"Numpad 3":99,"Numpad 4":100,"Numpad 5":101,"Numpad 6":102,"Numpad 7":103,"Numpad 8":104,"Numpad 9":105,"Numpad *":106,"Numpad +":107,"Numpad -":109,"Numpad .":110,"Numpad /":111,"F1":112,"F2":113,"F3":114,"F4":115,"F5":116,"F6":117,"F7":118,"F8":119,"F9":120,"F10":121,"F11":122,"F12":123,"Num Lock":144,"Scroll Lock":145,"My Computer":182,"My Calculator":183,";":186,"=":187,",":188,"-":189,".":190,"/":191,"`":192,"[":219,"\\":220,"]":221,"'":222};
+
+// window.devicePixelRatio
+
+
+
+var canvas, ctx, flag = false,
+    prevX = 0,
+    currX = 0,
+    prevY = 0,
+    currY = 0,
+    dot_flag = false;
+
+var buffer;
+
+var x = "black",
+    y = 1;
+
+var paws_x = 0;
+var paws_y = 0;	
+
+var paws_paper = 7;
+var paws_ink = 0;
+
+var spectrum_paleta = 
+	[
+	0,0,0,     // Black
+	0,0,255,   // Blue
+	255,0,0,   // Red
+	255,0,255, // Magenta
+	0,255,0,   // Green
+	0,255,255,  // Cyan
+	255,255,0,  // Yellow
+	255,255,255	 // White
+	];
+
+var old_x = 0;
+var old_y = 0;
+
+var lastDownTarget;
+	
+function init() {
+    canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+    w = canvas.width;
+    h = canvas.height;
+	
+	ctx.translate(0,-192*6);
+	ctx.scale(3,3);
+	
+		
+    canvas.addEventListener("mousemove", function (e) {	
+        findxy('move', e)
+    }, false);
+    document.addEventListener("mousedown", function (e) {
+        lastDownTarget = event.target;
+        if (lastDownTarget==canvas) findxy('down', e)
+    }, false);
+    canvas.addEventListener("mouseup", function (e) {
+        findxy('up', e)
+    }, false);
+    canvas.addEventListener("mouseout", function (e) {
+        findxy('out', e)
+    }, false);
+	document.addEventListener("keydown", function(e) { 
+          if(lastDownTarget == canvas) 
+		    {
+				rutina_teclado(e)
+			}
+	},false);
+	
+	buffer = ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+function rutina_teclado (e)
+{
+	if (e.keyCode == keyCharToCode["A"]) // ABS MOVE
+	{
+		paws_x = currX;
+		paws_y = canvas.height-currY;
+		
+		document.getElementById("command_window").value+="ABS_MOVE "+paws_x+" "+paws_y+'\n';
+	}
+	
+	if (e.keyCode == keyCharToCode["R"]) // REL MOVE
+	{
+		document.getElementById("command_window").value+="REL_MOVE "+(currX-paws_x)+" "+(canvas.height-currY-paws_y)+'\n';
+	    
+		paws_x = currX;
+		paws_y = canvas.height-currY;
+	}
+	
+	if (e.keyCode == keyCharToCode["P"]) // PLOT
+	{
+		paws_x = currX;
+		paws_y = canvas.height-currY;
+		
+		document.getElementById("command_window").value+="PLOT "+paws_x+" "+paws_y+'\n';
+		pinta_cola();
+	}
+	
+	if (e.keyCode == keyCharToCode["L"]) // LINE
+	{
+		document.getElementById("command_window").value+="LINE "+(currX-paws_x)+" "+(canvas.height-currY-paws_y)+'\n';
+		pinta_cola();		
+	}
+	
+	if (e.keyCode == keyCharToCode["F"]) // FILL SOLIDO
+	{
+		document.getElementById("command_window").value+="FILL "+'\n';
+	}
+	
+	if (e.keyCode == keyCharToCode["S"]) // SOMBREADO 
+	{
+		document.getElementById("command_window").value+="SHADE "+'\n';
+	}
+
+	if (e.keyCode == keyCharToCode["Y"]) // GRID
+	{
+	// Muestra un canvas transparente con la rejilla de 8x8p�xel
+	
+	}	
+	
+	if (e.keyCode == keyCharToCode["C"]) // PAPER
+	{
+		document.getElementById("command_window").value+="PAPER "+paws_paper+'\n';
+	}	
+
+	if (e.keyCode == keyCharToCode["B"]) // BLOCK
+	{
+		document.getElementById("command_window").value+="BLOCK "+'\n';
+	}	
+	
+	
+	
+}
+
+function pinta_cola ()
+{
+var cmd="";
+var params;
+var linea;
+
+paws_x = 0;
+paws_y = 0;
+paws_paper = 7;
+paws_ink = 0;
+
+// 0. Limpia el buffer de pantalla
+for (var i=0;i<buffer.data.length;i++) buffer.data[i]=0;
+
+// 1. Extrae la info del textarea
+var cola_comandos = document.getElementById('command_window').value.split('\n');
+
+for (var i=0; i < cola_comandos.length; i++)
+ {
+	// Extrae la l�nea
+	linea = cola_comandos[i];
+	// Tokenizer...
+	var res = linea.toLowerCase().trim().split(/[\s,]+/);
+	res[1] = parseInt(res[1]);
+	res[2] = parseInt(res[2]);
+	res[3] = parseInt(res[3]);
+	res[4] = parseInt(res[4]);
+	
+	switch(res[0])
+	{
+		case "abs_move":
+		paws_x = res[1];
+		paws_y = res[2];
+		break;
+		
+		case "rel_move":
+		paws_x+=res[1];
+		paws_y+=res[2];
+		break;
+		
+		case "line":
+		drawLineSp (paws_x, paws_y, paws_x+res[1],paws_y+res[2]);
+		paws_x+=res[1];
+		paws_y+=res[2];
+		
+		break;
+		
+		case "plot":
+		plotSp(res[1],res[2]);
+		paws_x=res[1];
+		paws_y=res[2];
+		break;
+		
+		case "paper":
+		paws_paper = res[1];
+		break;
+		
+		case "ink":
+		paws_ink = res[1];
+		break;
+		
+		case "block":
+		//drawblockSp (paws_x, paws_y, paws_x+res[1],paws_y+res[2]);
+		//paws_x+=res[1];
+		//paws_y+=res[2];		
+		break;
+	}
+ } 
+
+}
+
+function drawLineSp (iniX, iniY, finalX, finalY)
+{
+// Algoritmo de Bresenham. No hay antialiasing
+iniX = parseInt (iniX);
+iniY = parseInt (iniY);
+finalX = parseInt (finalX);
+finalY = parseInt (finalY);
+
+// alert (iniX +" "+iniY+" "+finalX+" "+finalY);
+
+// 1. Convierte coordenadas para que funcionen en CANVAS
+    // Define differences and error check
+    var dx = Math.abs(finalX - iniX);
+    var dy = Math.abs(finalY - iniY);
+    var sx = (iniX < finalX) ? 1 : -1;
+    var sy = (iniY < finalY) ? 1 : -1;
+    var err = dx - dy;
+	    
+    // Main loop
+    while (!((iniX == finalX) && (iniY == finalY))) {
+      var e2 = err << 1;
+      if (e2 > -dy) {
+        err -= dy;
+        iniX += sx;
+      }
+      if (e2 < dx) {
+        err += dx;
+        iniY += sy;
+      }
+    // Set coordinates
+    plotSp (iniX, iniY);
+	}
+	
+}
+  
+function plotSp (X,Y)
+{
+// Dibuja un punto...
+// Cada p�xel: RGBA (4bytes)
+//		For example, to read the blue component's value from the pixel at column 200, row 50 in the image, you would do the following:
+//blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
+
+base = ((canvas.height-Y)*(canvas.width*4)+(X*4));
+
+buffer.data[ base ] = spectrum_paleta[paws_ink*3]; // R
+buffer.data[ base+1 ] = spectrum_paleta[paws_ink*3+1]; // G
+buffer.data[ base+2 ] = spectrum_paleta[paws_ink*3+2]; // B
+buffer.data[ base+3 ] = 255; // Alfa
+
+}
+
+function drawLine(iniX, iniY, finalX, finalY, color) {
+    ctx.beginPath();
+    ctx.moveTo(iniX, iniY);
+    ctx.lineTo(finalX, finalY);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = y;
+    ctx.stroke();
+    ctx.closePath();
+}
+
+function draw() {
+    ctx.beginPath();
+    ctx.moveTo(prevX, prevY);
+    ctx.lineTo(currX, currY);
+    ctx.strokeStyle = x;
+    ctx.lineWidth = y;
+    ctx.stroke();
+    ctx.closePath();
+}
+
+function findxy(res, e) {
+
+    currX = e.clientX - canvas.offsetLeft;
+    currY = e.clientY - canvas.offsetTop;
+
+    if (res == 'down') {
+	
+        pinta_cola();
+    }
+    if (res == 'up' || res == "out") {
+        flag = false;
+    }
+	
+    if (res == 'move') {
+		// Borra la l�nea anterior...
+		canvas.getContext("2d").putImageData (scaleImageData (buffer,3,0,192*2), 0,0);
+		// Dibuja la l�nea nueva
+		drawLine (paws_x, canvas.height-paws_y, currX, currY,'black');
+		
+		//function drawLineSp (iniX, iniY, finalX, finalY)
+		old_x = currX;
+		old_y = currY;
+		document.getElementById("statusbar").textContent="@X="+paws_x+" @Y="+paws_y+" X="+(currX)+" Y="+ (canvas.height-currY)+ " PAPER="+paws_paper+" INK=" + paws_ink;
+    }
+}
+
+
+function scaleImageData(imageData, scale, xinicial, yinicial) {
+
+    var scaled = ctx.createImageData(imageData.width, imageData.height);
+    var subLine = ctx.createImageData(scale, 1).data
+
+    for (var row = yinicial; row < yinicial+(imageData.height/scale); row++) {
+        for (var col = xinicial; col < xinicial+(imageData.width/scale); col++) 
+		{
+            var sourcePixel = imageData.data.subarray(
+                (row * imageData.width + col) * 4,
+                (row * imageData.width + col) * 4 + 4
+            );
+            for (var x = 0; x < scale; x++) subLine.set(sourcePixel, x*4)
+            for (var y = 0; y < scale; y++) {
+                var destRow = (row-yinicial) * scale + y;
+                var destCol = (col-xinicial) * scale;
+                scaled.data.set(subLine, (destRow * scaled.width + destCol) * 4)
+            }
+        }
+    }
+
+    return scaled;
+}
+
+
+</script>
+<body onload="init()">
+<table>
+<tr><td>
+    <canvas id="can" width="768" height="576" style="position:relative; top:0;left:0;border:2px solid; cursor: none"></canvas>
+    <!--
+	<div style="position:absolute;top:12%;left:43%;">Choose Color</div>
+    <div style="position:absolute;top:15%;left:45%;width:10px;height:10px;background:green;" id="green" onclick="color(this)"></div>
+    <div style="position:absolute;top:15%;left:46%;width:10px;height:10px;background:blue;" id="blue" onclick="color(this)"></div>
+    <div style="position:absolute;top:15%;left:47%;width:10px;height:10px;background:red;" id="red" onclick="color(this)"></div>
+    <div style="position:absolute;top:17%;left:45%;width:10px;height:10px;background:yellow;" id="yellow" onclick="color(this)"></div>
+    <div style="position:absolute;top:17%;left:46%;width:10px;height:10px;background:orange;" id="orange" onclick="color(this)"></div>
+    <div style="position:absolute;top:17%;left:47%;width:10px;height:10px;background:black;" id="black" onclick="color(this)"></div>
+    <div style="position:absolute;top:20%;left:43%;">Eraser</div>
+    <div style="position:absolute;top:22%;left:45%;width:15px;height:15px;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
+    <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+    <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:10%;">
+    <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:15%;">
+	!-->
+	</td>
+	<td>
+	<textarea id="command_window" style="width:100%;height:100%;width:100%"></textarea>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div id="statusbar" style="">X= Y=</div>
+	</td>
+</tr>
+</body>
+</html>
