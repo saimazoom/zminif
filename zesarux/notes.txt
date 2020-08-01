@@ -1,0 +1,34 @@
+
+How to reset the emulator?
+
+F5 -> E (DEBUG) -> R (RESET)
+
+ Cuando se resetea el emulador se pierde el fichero tap que se ha cargado. 
+ 
+F5 -> t (Storage) -> t (TAPE) -> [X] Tape inserted 
+
+Un buen truco es desmarcar y marcar el tape inserted, esto también resetea el emulador. 
+
+
+How to set a breakpoint?
+
+ Por algún motivo si iniciamos el emulador con un tap y lo carga en modo SmartLoad los puntos de breakpoint no funcionan. 
+ 
+ 1) Cargar el emulador por ejemplo en modo +3 para que el smartload no funcione
+ 2) Entrar en menú F5 -> E (DEBUG) -> D (DEBUG CPU) -> B (BREAKPOINTS) -> B (ENABLE BREAKPOINTS)
+ 
+ Para setear un breakpoint en una dirección de memoria (pej 0x673D) añadir 
+ 
+ 1. PC = 637DH
+ 
+ El teclado en los menús funciona como en el spectrum!! 
+ Los números hexadecimales son 0000H 
+ = en spectrum es con ALT+L
+ 
+ 
+ 3) ESC ESC ESC 
+ 4) ENTER to load the game 
+ 
+ 
+Where is the configuration file?
+C:\Users\kmbr\.zesaruxrc 

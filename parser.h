@@ -4,10 +4,6 @@
  Written by KMBR
  v0.2
 
- License
------------------------------------------------------------------------------------
- Released under the the GPL v2 or later license.
------------------------------------------------------------------------------------
 FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
 FASTCALL CC65: https://www.cc65.org/doc/cc65-5.html
 There is no __CALLEE__ in CC65
@@ -23,7 +19,7 @@ There is no __CALLEE__ in CC65
 // Parser Structures
 typedef struct {
         unsigned char id;
-        unsigned char page; // Página de RAM
+        unsigned char page; // Pï¿½gina de RAM
         unsigned char *paddr; // Puntero a la memoria
 } img_t;
 
@@ -62,7 +58,7 @@ typedef struct
     } obj_t;
 
 // Window properties
-// Values are characters for rows and cols *not in píxel*
+// Values are characters for rows and cols *not in pï¿½xel*
 typedef struct
     {
         BYTE x;

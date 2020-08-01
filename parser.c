@@ -4,11 +4,6 @@
  Written by KMBR.
  v0.2
 
- License
------------------------------------------------------------------------------------
- Released under the the GPL v2 or later license.
------------------------------------------------------------------------------------
-
 El mapa de memoria en Spectrum consiste en:
 
 40KB de RAM disponibles 
@@ -49,7 +44,7 @@ Comandos de depuración
 #include "juego_flags.h"
 #include "parser.h"
 
-// Graphics compressor 
+// Graphics compressor ZX Spectrum 
 #ifndef C64
     #include "zx7.h"
 #endif

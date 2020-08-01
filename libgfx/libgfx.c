@@ -411,7 +411,6 @@ Keyboard_Map:       DEFB 0xFE,'#','z','x','c','v'
 #endasm
 }
 
-
 void clearchar (BYTE x, BYTE y, BYTE color)
 {
    // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
@@ -434,34 +433,14 @@ void clearchar (BYTE x, BYTE y, BYTE color)
 void clearScreen (BYTE color)
 {
 // Pasar esto a asm...
-     memset(16384, 0, 6144);    // P�xeles...
-     memset(22528, color, 768); // Atributos
+     memset(16384, 0, 6144);    // Pixels...
+     memset(22528, color, 768); // Attributes
      // The quickest and simplest way to set the border colour is to write to port 254. The 3 least significant bits of the byte we send determine the colour.
      #asm
      ;; Set border colour to black
           ld a,0x00
           out ($fe),a
      #endasm
-}
-
-void putPixel (BYTE x, BYTE y, BYTE value)
-{
-    // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
-	// http://www.z88dk.org/forum/viewtopic.php?id=9177
-	// En la pila RET ADDRESS(2bytes), BYTE Y, BYTE X
-	/* Otra forma:
-	   __asm
-		pop bc   ; bc = ret address
-		pop hl   ; hl = int b
-		pop de  ; de = int a
-		push bc  ; put the return address back
-	*/
-   // Formato de memoria: 010xxYYY ZZZCCCCC
-   // xx: Tercio
-   // YYY: Scan Line 0-7
-   // ZZZ: Caracter 0-7 Fila
-   // CCCC: Columna 0-31
-
 }
 #endif 
 
@@ -481,4 +460,168 @@ void fzx_puts(char *s)
      print_string (fzx.x, fzx.y, s);
 }
 
+
+void paint_pic (unsigned char *bytestring)
+{
+/* 
+	https://wiki.scummvm.org/index.php/AGI/Specifications/Pic#General_actions
+
+	0xF0: Change picture color and enable picture draw.
+    0xF1: Disable picture draw.
+    0xF2: Change priority color and enable priority draw.
+    0xF3: Disable priority draw.
+    0xF4: Draw a Y corner.
+    0xF5: Draw an X corner.
+    0xF6: Absolute line (long lines).
+    0xF7: Relative line (short lines).
+    0xF8: Fill.
+    0xF9: Change pen size and style.
+    0xFA: Plot with pen.
+    0xFB--0xFE: Unused in most AGI games.
+*/
+     // (0,0) is top left corner
+     // Code from veced.html
+     BYTE cmd;
+	BYTE args=0;
+	BYTE arg_array[4];
+	BYTE arg_counter=0;
+     BYTE array_counter=0;
+	BYTE x0,y0,x1,y1;
+
+     while (*bytestring!=255)
+     {
+          // Byte values over 0xF0 once the arguments are retrieved, belongs to commands 
+		if (*bytestring>0xF0 && arg_counter==0)
+		{
+               // 0xFF: End-of-pic 
+			if (*bytestring==0xFF) 
+			{
+				return; 
+			}
+
+			// Commands 
+			// Higher than 0xF0 is reserved for commands and End-of-pic (0xFF)
+			// 0xF6: Absolute line (long lines) X0 Y0 X1 Y1 X2 Y2...
+			if (*bytestring==0xF6)
+			{
+               	x0=0;
+				y0=0;
+				x1=1;
+				y1=1;
+				cmd = 0xF6;
+				args = 4; // Y0,X0 Y1,X1
+				//arg_array[]=""
+                    array_counter=0;
+				arg_counter=0;		
+                    // Advance to next iteration
+                    bytestring++;
+                    continue;                    
+			}
+			// 0xF7: Relative Line X1|Y1
+			if (*bytestring==0xF7)
+			{
+				cmd = 0xF7;
+				args = 1; // Both coordinates fits in 1byte 
+				//arg_array = [] 
+                    array_counter=0;
+				arg_counter = 0; 
+				arg_array[array_counter++]=y0;
+				arg_array[array_counter++]=x0;	
+                    bytestring++;
+                    continue;			
+			}
+			// 0xFA: PLOT X0 Y0
+			if (*bytestring==0xFA) 
+			{
+				x0=0;
+				y0=0;
+				cmd = 0xFA;
+				args = 2; // X0,Y0 
+				//arg_array = [];
+                    array_counter=0;
+				arg_counter=0;
+                    bytestring++;
+                    continue;				
+			}
+               // 0xF8: FILL X0 Y0 Pattern
+               if (*bytestring==0xF8) 
+			{
+				x0=0;
+				y0=0;
+				cmd = 0xF8;
+				args = 3; // X0,Y0, Pattern 
+				//arg_array = [];
+                    array_counter=0;
+				arg_counter=0;
+                    bytestring++;
+                    continue;				
+			}               
+		}
+
+		// Parameters 
+		if (arg_counter<args)
+		{
+			// Post processing
+			// RLINE 
+			if (cmd == 0xF7)
+			{                    
+				y1 = (*bytestring & 0x0F);
+				// Negative numbers -> 0000 1000
+                    if (y1>7) arg_array[array_counter++]=y0-(y1&0x07);
+                         else arg_array[array_counter++]=y0+y1;
+				x1 = (*bytestring>>4) & 0x0F;
+		          if (x1>7) arg_array[array_counter++]=x0-(x1&0x07);
+                         else arg_array[array_counter++]=x0+x1;
+                    arg_counter++;
+              	}
+			else 
+               {
+				arg_array[array_counter++]=*bytestring;
+               }
+			arg_counter++;
+		}
+				
+		// All arguments have been retrieved
+		// END of RLINE 
+		// END of LINE
+		if ((cmd==0xF6 || cmd==0xF7) && arg_counter>=args)
+		{			
+			drawLine (arg_array[1], arg_array[0], arg_array[3], arg_array[2]);
+			// Line works as a string of coordinates
+			x0 = arg_array[3];
+			y0 = arg_array[2];
+			//arg_array=[]
+               arg_counter=0;
+               array_counter=0;
+			arg_array[array_counter++]=y0;
+			arg_array[array_counter++]=x0;
+			args=2;
+     	}
+
+		// END of PLOT 
+		if (cmd==0xFA && arg_counter>=args)
+		{
+			x0 = arg_array[1];
+			y0 = arg_array[0];
+			putPixel (x0, y0);
+			//arg_array.push(bytestring[i]) // X0
+			//arg_array=[]
+               array_counter=0;
+			args=2;
+			arg_counter=0;
+		}
+          // END of FILL 
+	     if (cmd==0xF8 && arg_counter>=args)
+		{
+			x0 = arg_array[1];
+			y0 = arg_array[0];
+			pfill (x0, y0,0);
+               array_counter=0;
+			args=3;
+			arg_counter=0;
+		}
+
+       bytestring++;
+	}
+}
 

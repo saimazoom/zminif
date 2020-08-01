@@ -7,6 +7,38 @@ TODO:
 - C64: Cargador de gráficos optimizado y descompresión directamente en los buffer de video
 - Size optimization 
 - Spectrum: vertical scroll with attributes    
+- Soporte para juegos en Inglés 
+
+14.06.2020
+    + Corregido error en el dibujado y borrado de líneas 
+
+30.05.2020 
+    > Alineando la rutina de dibujado de líneas entre el editor y el parser. He hecho algunas pruebas con 0,0,255,1 y lo que observo es que baja 1 píxel
+    justo al comienzo en lugar de a mitad de camino como un bresenham. 
+
+24.05.2020 
+> Ya tengo una rutina de rellenado bastante rápida y que emplea patrones. 
+Ahora sólo falta añadir el rellenado en el editor e intentar cuadrar las dos rutinas de línea, pues es importante para poder setear los atributos y que encanjen los colores. 
+
+> La rutina de fill sólo rellena hacia abajo, de este modo necesita mucho menos memoria. No veo gran problema en añadir un par de comandos fill para rellenar las formas más complicadas.
+
+21.05.2020 
+
+Estamos pasando por una pandemia y la situación en general es extraña. El miedo al contagio, las tiendas cerradas, las escuelas y universidades. Las empresas se están preparando en muchos casos para cerrar por una temporada o al menos para reducir las horas que pagan a los empleados. 
+
+Pero de alguna manera estamos todos bien, nos vammos adaptando a lo que sucede e intentamos seguir adeltante unidos.
+
+Volvamos a hacer aventuras.
+
+> He compilado de nuevo zminif para spectrum a la primera. Muy sorprendido la verdad pues tiene ya muchos de los cambios y adaptaciones para C64. 
+> Added plot and line routines from https://github.com/breakintoprogram/lib-spectrum/blob/master/lib/vector.z80
+> Funcionando! 
+> Imagen vectorial importada desde Veced como data
+Antes: 18992bytes, Después: 19486 -> 494bytes, en torno a un 50% lo que ocupa la imagen original 
+
+> Ya dibuja la pantalla, y es súper rápido!!!!! 
+> Tambien le he añadido fill sólido 
+
 
 02.02.2020 
 + Añadiendo funciones para leer el teclado y devolver la tecla pulsada.

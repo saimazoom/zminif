@@ -1,4 +1,4 @@
-
+// Z88dk fastcall/calle/nominal in https://www.z88dk.org/wiki/doku.php?id=optimization
 
 #ifdef C64 
 	#define __FASTCALL__ __fastcall__
@@ -333,7 +333,8 @@
 #endif 
 
 
-// The function being called (callee) is responsible for cleaning up the stack.
+// The function being called (callee) is responsible for cleaning up the stack after finishing. 
+
 #ifdef C64
    extern void setRamLayout ();
    extern void __FASTCALL__ splitScreen (BYTE scanline);
@@ -343,15 +344,14 @@
    extern void __FASTCALL__ clearVideoBitmap (BYTE color); // Bitmap memrory
 #endif
 
-extern void __CALLEE__ putPixel (BYTE x, BYTE y, BYTE value);
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);
 extern void __CALLEE__scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);
 extern void __CALLEE__drawRectangle (BYTE xorig, BYTE yorig, BYTE width, BYTE height);
 extern void  clsScreen (BYTE effect); // Distintos efectos para borrar la pantalla...
 extern void __CALLEE__ waitForAnyKey();
-extern void __CALLEE__drawVline (BYTE x0, BYTE y0, BYTE len);
-extern void __CALLEE__drawHline (BYTE x0, BYTE y0, BYTE len);
+
 extern void __CALLEE__clearchar (BYTE x, BYTE y, BYTE color);
+
 extern void __CALLEE__ __FASTCALL__ clearScreen (BYTE color);
 extern void __CALLEE__ waitForNoKey();
 extern void setRAMPage (BYTE banco);
@@ -361,55 +361,19 @@ extern void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE 
 extern WORD __CALLEE__ randomNumber(); 
 extern unsigned char getKey();
 
+extern void __CALLEE__ putPixel (BYTE x, BYTE y);
+extern void __CALLEE__ drawLine (BYTE x0, BYTE y0, BYTE x1, BYTE y1);
+extern void __CALLEE__ eraseLine (BYTE x0, BYTE y0, BYTE x1, BYTE y1);
+extern void __FASTCALL__ paint_pic (unsigned char *bytestring);
+extern void __CALLEE__ fill (BYTE x, BYTE y); 
+extern void __CALLEE__ pfill (BYTE x, BYTE y, BYTE pattern); 
+
 ///////////////////////////////////////////////////////////
 //                  DATA STRUCTURES                      //
 ///////////////////////////////////////////////////////////
 
-// FONT STRUCTURES
-/*
-struct fzx_char                 // FONT'S CHAR DESCRIPTOR
-{
-
-   unsigned int             kern_offset;     // kern in bits 15..14, offset to bitmap from fzx_char address
-   unsigned char            shift_width_1;   // shift in bits 7..4, width-1 in bits 3..0
-
-};
-
-struct fzx_font                 // FONT STRUCTURE
-{
-   unsigned char            height;     // row height in pixels
-   unsigned char            tracking;   // horizontal gap between chars in pixels
-   unsigned char            last_char;  // last defined char bitmap in 32..255
-   struct fzx_char  bmp[0];     // begin char bitmap definitions at char code 32
-
-};
-
-struct fzx_cmetric              // FONT CHARACTER METRICS
-{
-
-   unsigned char            kern;       // num pixels to leftshift rendered char within string, 0-3
-   unsigned char            width;      // width of glyph, 1-16
-   unsigned char            shift;      // num pixels to downshift rendered char from top of line, 0-15
-   void            *bitmap;     // address of glyph bitmap
-   
-};
-
-// FONT ENUMERATION
-
-struct fzx_enum
-{
-   char            *name;       // font name
-   struct fzx_font *font;       // pointer to font
-};
-*/
-// FZX STATE
-
 struct fzx_state
 {
-
-  // struct fzx_font *font;      // current font
-  // unsigned char            lm;        // left margin in pixels
-  // unsigned char            flags;     // reserved, set to 0 to reset
    unsigned char            x;         // current x coordinate in pixels
    unsigned char            y;         // current y coordinate in pixels
 
