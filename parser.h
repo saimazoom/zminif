@@ -1,13 +1,19 @@
 /*
  MiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
- Written by KMBR
- v0.2
+ (c) 2016. Written by KMBR.
+ v0.3
+
+ 
+ License
+-----------------------------------------------------------------------------------
+ Released under the the GPL v2 or later license.
+-----------------------------------------------------------------------------------
+
 
 FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
 FASTCALL CC65: https://www.cc65.org/doc/cc65-5.html
 There is no __CALLEE__ in CC65
-
 */
 
 #ifdef C64 
@@ -15,6 +21,7 @@ There is no __CALLEE__ in CC65
 	#define __CALLEE__ 
 #endif 
 
+// Parser structures
 
 // Parser Structures
 typedef struct {
@@ -54,7 +61,7 @@ typedef struct
 		BYTE vnombre; // Nombre de Vocabulario
 		BYTE vadj1;   // Adjetivo de Vocabulario
 		unsigned char peso;
-		unsigned long int atributos; // 32bit
+		unsigned long int atributos; // 32bit, 4bytes
     } obj_t;
 
 // Window properties
@@ -92,8 +99,8 @@ extern BYTE __FASTCALL__ CNDpresent(BYTE objno);
 extern BYTE __FASTCALL__ CNDabsent(BYTE objno);
 extern BYTE __FASTCALL__ CNDworn(BYTE objno);
 extern BYTE __FASTCALL__ CNDnotworn(BYTE objno);
-extern BYTE CNDozero(BYTE objno, unsigned long int attrno);
-extern BYTE CNDonotzero(BYTE objno, unsigned long int attrno);
+extern BYTE CNDozero(BYTE objno, BYTE attrno);
+extern BYTE CNDonotzero(BYTE objno, BYTE attrno);
 extern BYTE CNDweight();
 extern BYTE CNDisat(BYTE objid, BYTE locid);
 extern BYTE CNDisnotat(BYTE objid, BYTE locid);
@@ -122,9 +129,9 @@ extern void __FASTCALL__ ACCgoto(BYTE locno);
 extern void ACCweigh(BYTE objno, BYTE flagno);
 extern void ACClistat (BYTE locno, BYTE container_objno);
 extern BYTE __FASTCALL__ ACCobjat (BYTE locid);
-extern void ACCoset(BYTE objid, unsigned long int attrno);
-extern void ACCoclear(BYTE objid, unsigned long int attrno);
-extern void ACConeg(BYTE objid, unsigned long int attrno);
+extern void ACCoset(BYTE objid, BYTE attrno);
+extern void ACCoclear(BYTE objid, BYTE attrno);
+extern void ACConeg(BYTE objid, BYTE attrno);
 extern void ACClistobj();
 extern void ACCplace(BYTE objid, BYTE locno);
 extern void ACCend();
@@ -173,7 +180,7 @@ BYTE getObjectCountAtWithAttr(BYTE locno, unsigned long int attrno);
 BYTE __FASTCALL__ getNPCCountAt(BYTE locno);
 BYTE __FASTCALL__ objectIsSupporter (BYTE objno);
 BYTE __FASTCALL__ objectIsContainer (BYTE objno);
-BYTE objectIsAttr (BYTE objno, unsigned long int att);
+BYTE objectIsAttr (BYTE objno, BYTE att);
 BYTE __FASTCALL__ objectIsNPC(BYTE objno);
 extern BYTE __FASTCALL__ get_loc_pos (BYTE locid);
 extern BYTE __FASTCALL__ get_img_pos (BYTE imgid);
@@ -205,4 +212,5 @@ void setConnection (BYTE loc_orig, BYTE value, BYTE loc_dest);
 BYTE getConnection (BYTE loc_orig, BYTE value);
 extern void incr16bit (BYTE *pointer);
 void ACCGetWord (BYTE wordnum);
+
 

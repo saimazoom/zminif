@@ -1,8 +1,13 @@
 /*
  ZMiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
- Written by KMBR.
- v0.2
+ (c) 2016. Written by KMBR.
+ v0.3
+
+ License
+-----------------------------------------------------------------------------------
+ Released under the the GPL v2 or later license.
+-----------------------------------------------------------------------------------
 
 El mapa de memoria en Spectrum consiste en:
 
@@ -32,10 +37,15 @@ Comandos de depuración
 ;help:
 ;where:
 
+ Use ISO 8819-15 Encoding 
+
 */
 
 //#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
-#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
+//#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
+//#define SPANISH
+#define ENGLISH
+#define ZX 
 
 #include <string.h>
 
@@ -45,7 +55,7 @@ Comandos de depuración
 #include "parser.h"
 
 // Graphics compressor ZX Spectrum 
-#ifndef C64
+#ifdef ZX
     #include "zx7.h"
 #endif
 
@@ -341,7 +351,7 @@ void ParserLoop (void) // 664 bytes
                 // Si están activas, describe las salidas
                 if (flags[fsalidas])
                 {
-                    writeText ("Salidas visibles:");
+                    writeSysMessage (SYSMESS_EXISTLIST);
                     for (i=0;i<10;++i)
                     {
                         j = conexiones_t[loc_temp].con[i];
@@ -350,20 +360,7 @@ void ParserLoop (void) // 664 bytes
                             writeText (" ");
                             writeText (nombres_t[i<<1].word);
                         }
-                    }
-                    /*
-                    800bytes!
-                    if (conexiones_t[loc_temp].con[nNorte]>0 && conexiones_t[loc_temp].con[nNorte]<NO_EXIT ) writeText ("norte ");
-                    if (conexiones_t[loc_temp].con[nSur]>0 && conexiones_t[loc_temp].con[nSur]<NO_EXIT) writeText ("sur ");
-                    if (conexiones_t[loc_temp].con[nEste]>0 && conexiones_t[loc_temp].con[nEste]<NO_EXIT) writeText ("este ");
-                    if (conexiones_t[loc_temp].con[nOeste]>0 && conexiones_t[loc_temp].con[nOeste]<NO_EXIT) writeText ("oeste ");
-                    if (conexiones_t[loc_temp].con[nNoreste]>0 && conexiones_t[loc_temp].con[nNoreste]<NO_EXIT) writeText ("noreste ");
-                    if (conexiones_t[loc_temp].con[nNorOeste]>0 && conexiones_t[loc_temp].con[nNorOeste]<NO_EXIT) writeText ("noroeste ");
-                    if (conexiones_t[loc_temp].con[nSurEste]>0 && conexiones_t[loc_temp].con[nSurEste]<NO_EXIT) writeText ("sureste ");
-                    if (conexiones_t[loc_temp].con[nSurOeste]>0 && conexiones_t[loc_temp].con[nSurOeste]<NO_EXIT) writeText ("suroeste ");
-                    if (conexiones_t[loc_temp].con[nArriba]>0 && conexiones_t[loc_temp].con[nArriba]<NO_EXIT) writeText ("arriba ");
-                    if (conexiones_t[loc_temp].con[nAbajo]>0 && conexiones_t[loc_temp].con[nAbajo]<NO_EXIT) writeText ("abajo ");
-                    */
+                    }                    
                     newLine();
                 }
                 localidades_t[loc_temp].visited=TRUE;
@@ -379,16 +376,17 @@ void ParserLoop (void) // 664 bytes
 		newLine();
 		parse(); // Extrae los tokens...
         fontStyle (NORMAL);
-
+#ifdef DEBUG
         if (gDEBUGGER==FALSE)
         {
+#endif
            if (respuestas()==FALSE) // Calls reply post function if not successful
                 respuestas_post();
-           proceso2(); // Calls the process after the responses tables
+            proceso2(); // Calls the process after the responses tables
         	// Increments the turns counter
         	incr16bit (&flags[fturns_low]); 
-        }
 #ifdef DEBUG
+        }
         else
             debugger();
 #endif
@@ -430,7 +428,7 @@ BYTE ACCNextWord ()
 // ACCGetWord
 // Input: 
 //      wordnum: Requested word from the playerInput array (1 is first word)
-// Description: Retrieves in playerWord array the request word. Return 1 if succeed, 0 if failure.
+// Description: Retrieves in playerWord array the request word. 
 void ACCGetWord (BYTE wordnum)
 {    
     // From the beginning...
@@ -463,7 +461,19 @@ void parse() // 145bytes
     while (playerWord[0]!=0) 
     {
         ACCNextWord();
+       //  writeText (playerWord);
         //writeValue (playerWord[0]);
+        #ifdef DEBUG 
+            if (flags[fverb]==EMPTY_WORD && buscador(verbos_debug_t, playerWord, &flags[fverb])!=EMPTY_WORD){
+                gDEBUGGER=TRUE;
+            } else if (gDEBUGGER==TRUE && flags[fnoun1]==EMPTY_WORD){
+                 flags[fnoun1]= atoi (playerWord);
+            }  else if (gDEBUGGER==TRUE && flags[fnoun2]==EMPTY_WORD)
+                {
+                   flags[fnoun2]= atoi (playerWord);
+                } 
+        #endif
+
         if (flags[fverb]==EMPTY_WORD && buscador(verbos_t, playerWord, &flags[fverb])!=EMPTY_WORD){
             #ifdef DEBUG 
                 if (flags[fverb]>EMPTY_WORD) 
@@ -517,134 +527,6 @@ void parse() // 145bytes
         }
  
     }     
-/*
-unsigned char counter=0;
-unsigned char caracter = 0;
-unsigned char ongoing=1;
-unsigned char word_counter=0;
-unsigned char i;
-BYTE salir=0;
-
-procesaString (); // Convierte todo a mayúsculas, elimina acentos, símbolos y Ñ
-
-caracter = playerInput[0]; // Va a recorrer toda la cadena de entrada...
-
-// Inicializa los flags de vocabulario...
-flags[fverb]=EMPTY_WORD;
-flags[fnoun1]=EMPTY_WORD;
-flags[fnoun2]=EMPTY_WORD;
-flags[fadject1]=EMPTY_WORD;
-flags[fadject2]=EMPTY_WORD;
-flags[fadverb]=EMPTY_WORD;
-gDEBUGGER=FALSE;
-
-while (salir==0) // Recorre la cadena hasta el final
-	{
-	    if (counter==0 && playerInput[counter]==';') gDEBUGGER=TRUE; // Es un comando de depuración
-
-        if ((caracter==' ' || caracter==13 || caracter==0 || caracter==10) && ongoing==1)  // Termina de extraer una palabra...
-        {
-            ongoing = 0;
-            playerWord[word_counter] = 0; // Para ayudar a las funciones de C...
-            word_counter = 0;
-
-            if (gDEBUGGER==FALSE)
-            {
-                // Try to match a VERB
-                if (flags[fverb]==EMPTY_WORD && (i = buscador(verbos_t, playerWord))>0)
-                {
-                    flags[fverb]=i;
-                   #ifdef DEBUG
-                   writeText ("V");
-                   writeValue (flags[fverb]);
-                   #endif
-                }
-                else // Try to match a noun1/noun2
-                if ((flags[fnoun1]==EMPTY_WORD || flags[fnoun2]==EMPTY_WORD) && (i = buscador(nombres_t, playerWord))>0) // Busca si es un nombre...
-                {
-                    #ifdef DEBUG
-                    writeText ("N");
-                    #endif
-                    if (i<NUM_CONVERTIBLE_NOUNS && flags[fverb]==EMPTY_WORD) flags[fverb]=i; // Si es un nombre < 20 también vale como verbo
-                        else
-                            if (flags[fnoun1]==EMPTY_WORD)
-                            {
-                                flags[fnoun1]=i;
-                                #ifdef DEBUG
-                                writeText("1_");
-                                writeValue(flags[fnoun1]);                    
-                                #endif                                    
-                            }
-                            else
-                            {
-                                flags[fnoun2]=i;
-                                #ifdef DEBUG
-                                writeText("2_");
-                                writeValue(flags[fnoun1]);                            
-                                #endif                            
-                            }
-                }
-                else // Try to match adjective1/2
-                if (flags[fadject1]==EMPTY_WORD && (i = buscador(adjetivos_t, playerWord))>0) // Adjetivo...?
-                {
-                    #ifdef DEBUG
-                    writeText ("A");
-                    #endif
-                    if (flags[fadject1]==0) flags[fadject1]=i;
-                        else flags[fadject2]=i;
-                }
-                else // Try to match adverb
-                if (flags[fadverb]==EMPTY_WORD && (i = buscador(adverbios_t, playerWord))>0) // Adverbio?
-                {
-                    #ifdef DEBUG
-                    writeText ("B");
-                    #endif
-                    flags[fadverb]=i;
-                }
-                else // Try to match preposition
-                if (flags[fprep]==EMPTY_WORD && (i = buscador(preposiciones_t, playerWord))>0) 
-                {
-                    #ifdef DEBUG
-                    writeText ("P");
-                    #endif
-                    flags[fprep]=i;
-                }
-            }
-            #ifdef DEBUG
-            else // Comando de depuración
-            {
-                if (flags[fverb]==EMPTY_WORD && (i = buscador (verbos_debug_t, playerWord)))
-                {
-                    writeText ("D");
-                    flags[fverb]=i;
-                }
-                else
-                if (flags[fnoun1]==EMPTY_WORD)
-                {
-                   writeText ("V");
-                   flags[fnoun1]= atoi (playerWord);
-                }
-                else
-                if (flags[fnoun2]==EMPTY_WORD)
-                {
-                   writeText ("V");
-                   flags[fnoun2]= atoi (playerWord);
-                }
-            }
-            #endif
-        }
-        if (ongoing==0 && caracter!=' ') ongoing=1;
-        if (ongoing==1)
-        {
-            playerWord[word_counter] = caracter;
-            if (word_counter<MAX_WORD_LENGHT) word_counter++; // Limitamos el parsing a 5 caracteres...
-        }
-
-        if (caracter==0 || caracter==13) salir=1;
-        counter++;
-        caracter = playerInput[counter];
-	}
-*/
 }
  
 
@@ -676,7 +558,7 @@ switch (flags[fverb])
         ACClistat(flags[fnoun1], 0);
         break;
     case d_goto:
-        ACCgoto(flags[fnoun1]);
+        ACCgoto (flags[fnoun1]);
         break;
     case d_gonear:
         ACCgoto (objetos_t[get_obj_pos(flags[fnoun1])].locid);
@@ -694,16 +576,16 @@ switch (flags[fverb])
         ACCplace(flags[fnoun1],flags[fnoun2]);
         break;
     case d_attr:
-        if (CNDozero(flags[fnoun1],(unsigned long int)1<<flags[fnoun2]))
-            writeText ("0^");
+        if (CNDozero(flags[fnoun1],flags[fnoun2]))
+            writeText (">>>>> 0");
         else
-            writeText ("1^");
+            writeText (">>>>> 1");
         break;
     case d_setattr:
-        ACCoset(flags[fnoun1], (unsigned long int)1<<flags[fnoun2]);
+        ACCoset(flags[fnoun1],flags[fnoun2]);
         break;
     case d_clearattr:
-        ACCoclear(flags[fnoun1], (unsigned long int)1<<flags[fnoun2]);
+        ACCoclear(flags[fnoun1], flags[fnoun2]);
         break;
     case d_where:
         playerInput[0]=0;
@@ -733,9 +615,9 @@ switch (flags[fverb])
 
 void writeValue (unsigned int value)
 {
-    // CC65 UTOA is not working...
+  // CC65 UTOA is not working...
     unsigned char valor[6];
-    #ifndef C64
+    #ifdef ZX
         utoa(value,valor,10);
     #endif 
     writeText (valor);
@@ -1155,11 +1037,10 @@ void  ACCautog()
                 //writeObject (get_obj_pos(objid));
                 //writeText(")");
                 writeSysMessage (SYSMESS_YOUCANNOTTAKE);
-                ACCdone();
-                return;
+                DONE;
             }
         ACCget (objid);
-        return;
+        return TRUE;
     }
 
 	writeSysMessage(SYSMESS_CANTSEETHAT);
@@ -1363,9 +1244,13 @@ void ACCswap(BYTE objid1, BYTE objid2)
 	//setReferredObject(objno2);
 }
 
-void ACCplace(BYTE objid, BYTE locid) // Aquí locno puede ser otro número de objeto.
+// Place the object OBJID in the location LOCID. 
+// Input: OBJID (1-255)
+//        LOCID (1-255)
+// Output: None
+void ACCplace(BYTE objid, BYTE locid) 
 {
-    if (locid==LOCATION_CARRIED || locid==LOCATION_WORN)
+    if (locid==LOCATION_CARRIED || locid==LOCATION_WORN || locid == LOCATION_NONCREATED || locid == LOCATION_HERE)
     {
         setObjectLocation(get_obj_pos(objid), locid);
     } else setObjectLocation (get_obj_pos(objid), get_loc_pos(locid));
@@ -1746,8 +1631,8 @@ void  ACCpicture(BYTE picid)
 	BYTE picpos;
 	picpos = get_img_pos(picid);
     if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
-    #ifndef C64
-        dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
+	#ifdef ZX
+    dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
     #endif
     if (imagenes_t[picpos].page!=0) setRAMBack();
 }
@@ -1774,26 +1659,29 @@ void  ACCsound(BYTE value)
     */
 }
 
-BYTE CNDozero(BYTE objid, unsigned long int attrno)
+BYTE CNDozero(BYTE objid, unsigned char attrno)
 {
+    
     if (objectIsAttr(get_obj_pos(objid), attrno)) return FALSE;
     return TRUE;
     }
 
-BYTE CNDonotzero(BYTE objid, unsigned long int attrno)
+BYTE CNDonotzero(BYTE objid, unsigned char attrno)
 {
  if (CNDozero(objid,attrno)==TRUE) return FALSE;
     else return TRUE;
 }
 
-void ACCoset(BYTE objid, unsigned long int attrno)
+void ACCoset(BYTE objid, BYTE attrno)
 {
-    objetos_t[get_obj_pos(objid)].atributos|=attrno;
+    objetos_t[get_obj_pos(objid)].atributos|=(unsigned long int)1<<(unsigned long int)attrno;
 }
 
-void ACCoclear(BYTE objid, unsigned long int attrno)
+void ACCoclear(BYTE objid, BYTE attrno)
 {
-    objetos_t[get_obj_pos(objid)].atributos&=!attrno;
+ unsigned long int mask=0xFFFFFFFF;
+ mask^=(unsigned long int)1<<(unsigned long int)attrno;
+ objetos_t[get_obj_pos(objid)].atributos&=mask;
 }
 
 BYTE CNDislight()
@@ -1869,9 +1757,9 @@ BYTE  CNDcarried(BYTE objid)
 	return FALSE;
 }
 
-void ACConeg(BYTE objid, unsigned long int attrno)
+void ACConeg(BYTE objid, BYTE attrno)
 {
-	objetos_t[get_obj_pos(objid)].atributos^=attrno;
+	// objetos_t[get_obj_pos(objid)].atributos^=attrno;
 }
 
 
@@ -2035,6 +1923,7 @@ BYTE  loc_here ()
     return flags[flocation]; // flocation contiene el ID de la localidad
 }
 
+// Searchs the Loc ID in the localidades_t array and returns the position of the element 
 // Input: Location ID
 // Output: Position within the location array
 
@@ -2098,7 +1987,7 @@ BYTE  getObjectLocation (BYTE objpos) // Devuelve el número de localidad en el a
 
 BYTE setObjectLocation(BYTE objno, BYTE location)
 {
-    if (location == LOCATION_CARRIED || location == LOCATION_WORN )
+    if (location == LOCATION_CARRIED || location == LOCATION_WORN || location == LOCATION_NONCREATED || location == LOCATION_HERE)
     {
         objetos_t[objno].locid = location;
     } else	objetos_t[objno].locid = localidades_t[location].id;
@@ -2129,9 +2018,10 @@ unsigned char objectIsContainer (unsigned char objno)
     return FALSE;
 }
 
-unsigned char objectIsAttr (unsigned char objno, unsigned long int att)
+unsigned char objectIsAttr (BYTE objno, BYTE att)
 {
-	return (objetos_t[objno].atributos&att)>0?1:0;
+   if ((objetos_t[objno].atributos&((unsigned long int)1<<(unsigned long int)att))>0) return 1;
+    else return 0;
 }
 
 BYTE  getObjectWeight(BYTE objno)
@@ -2244,7 +2134,12 @@ void writeObject(BYTE objno)
 //    writeText ("%u %u %u",objno,j,isMale);
     if (objno==EMPTY_OBJECT)
     {
+        #ifdef SPANISH
         writeText ("ninguno");
+        #endif 
+        #ifdef ENGLISH 
+        writeText ("nothing");
+        #endif 
         return;
     }
     if (!isPropio)
@@ -2254,27 +2149,47 @@ void writeObject(BYTE objno)
             if (!isPlural) // Singular
             {
                 //if (isMale) writeText ("el ");
+             #ifdef SPANISH
                 if (isFemale) writeText ("la ");
                     else writeText ("el ");
+             #endif
+            #ifdef ENGLISH 
+                writeText ("the ");
+            #endif
             }
             else
             {
+                #ifdef SPANISH
                 if (isFemale) writeText ("las ");
                  else writeText ("los ");
+                #endif 
+                #ifdef ENGLISH 
+                    writeText ("the ");
+                #endif
             }
         }
         else // Indeterminado
         {
             if (!isPlural) // Singular
             {
+                #ifdef SPANISH
                 if (isFemale) writeText ("una ");
                  else writeText ("un ");
+                #endif 
 
+                #ifdef ENGLISH
+                    writeText ("a ");
+                #endif
             }
             else // Plural
             {
+                #ifdef SPANISH 
                  if (isFemale) writeText ("unas ");
                  else writeText ("unos ");
+                #endif 
+                #ifdef ENGLISH 
+                    writeText ("a ");
+                #endif
             }
         }
     }
@@ -2340,19 +2255,15 @@ void writeTextln (BYTE *texto)
     writeText (texto);
     writeText ("^");
 }
-
 #ifdef C64 
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
-#endif
-
-void  writeText (BYTE *texto) 
+#endifvoid  writeText (BYTE *texto) 
 {
-    #ifndef C64 
+	#ifdef ZX
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
-    #endif 
-
+	#endif
     BYTE counter=0;
     BYTE texto_counter=0;
     BYTE caracter=0;
@@ -2398,7 +2309,8 @@ void  writeText (BYTE *texto)
         {
             if (caracter==0) salir = 1;
             counter++;
-            if (caracter=='^' || !caracter) counter--; // Steps backs over the escape char                
+            if (caracter!='.') counter--; // Steps backs over the escape char           
+            
             buffer[counter]=0; // String terminator
             // New Line...
             // Each character fixed at 8pixel
@@ -2407,6 +2319,7 @@ void  writeText (BYTE *texto)
                 newLine();
             }
             fzx_puts(buffer);
+            if (caracter==' ') counter++;
             fzx.x+=counter;            
             counter=0;
         }  
@@ -2508,6 +2421,7 @@ void getInput ()
    memset(playerInput,0,MAX_INPUT_LENGTH); // Limpia el buffer
    gotoxy(TextWindow.x,fzx.y);
    writeText (playerPrompt);
+
    //writeText("_");
    while (caracter!=13 && contador<MAX_INPUT_LENGTH)
    {
@@ -2515,22 +2429,19 @@ void getInput ()
         if (caracter!=4) { // Código devuelto al borrar
             playerInput[contador]=caracter;
             contador++;
+            print_char (TextWindow.x+contador, fzx.y,caracter);
         }
         else  // Borrar
             {
             playerInput[contador]=0;            
+             print_char (TextWindow.x+contador, fzx.y,caracter);
             if (contador>0) contador--;
-            playerInput[contador]=' ';            
             }
-        gotoxy(TextWindow.x+1,fzx.y);
-        writeText(playerInput);
-     //   writeText("_");
         waitForNoKey();
    }
    
-   playerInput[contador-1]=' ';
+   //playerInput[contador-1]=' ';
    playerInput[contador]=0;
-   //playerInput[contador+1]=0;
 }
 
 void fontStyle (BYTE style)
