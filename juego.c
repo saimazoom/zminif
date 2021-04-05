@@ -182,6 +182,7 @@ token_t mensajesSistema_t [] =
     {"No es algo que pueda cogerse.^",SYSMESS_YOUCANNOTTAKE},
 	{"No parece que pueda moverse.^", SYSMESS_CANNOTMOVE},
 	{"Llevo las manos vacías.^", SYSMESS_CARRYNOTHING},
+	{"Salidas visibles:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
 
