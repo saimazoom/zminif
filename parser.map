@@ -1,842 +1,386 @@
-CLIB_FOPEN_MAX                  = $FFFFFFFF ; L crt0_base
-ASMDISP_STRREV                  = $0000 ; G strrev
-CLIB_EXIT_STACK_SIZE            = $0000 ; L crt0_base
-CLIB_MALLOC_HEAP_SIZE           = $0000 ; L crt0_base
-CLIB_STDIO_HEAP_SIZE            = $0000 ; L crt0_base
-CRT_ENABLE_CLOSE                = $0000 ; L crt0_base
-CRT_Z88_BADPAGES                = $0000 ; L crt0_base
-CRT_Z88_EXPANDED                = $0000 ; L crt0_base
-CRT_ENABLE_RESTART              = $0001 ; L crt0_base
-DEFINED_CLIB_EXIT_STACK_SIZE    = $0001 ; L crt0_base
-DEFINED_CLIB_FOPEN_MAX          = $0001 ; L crt0_base
-DEFINED_CLIB_MALLOC_HEAP_SIZE   = $0001 ; L crt0_base
-DEFINED_CLIB_STDIO_HEAP_SIZE    = $0001 ; L crt0_base
-DEFINED_CRT_ENABLE_CLOSE        = $0001 ; L crt0_base
-DEFINED_CRT_ENABLE_RESTART      = $0001 ; L crt0_base
-DEFINED_CRT_Z88_BADPAGES        = $0001 ; L crt0_base
-DEFINED_CRT_Z88_EXPANDED        = $0001 ; L crt0_base
-DEFINED_STACKPTR                = $0001 ; L crt0_base
-DEFINED_startup                 = $0001 ; L crt0_base
-NEED_floatpack                  = $0001 ; L crt0_base
-startup                         = $0001 ; L crt0_base
-ASMDISP_MEMSET_CALLEE           = $0004 ; G memset_callee
-ASMDISP_STRNCMP_CALLEE          = $0004 ; G strncmp_callee
-L_DIVENTRY                      = $0004 ; G l_div_u
-ASMDISP_ITOA_CALLEE             = $0005 ; G itoa_callee
-ASMDISP_UTOA_CALLEE             = $0005 ; G utoa_callee
-LIBDISP_ITOA_CALLEE             = $0024 ; G itoa_callee
-__code_clib_size                = $00D7 ; G 
-__bss_compiler_size             = $014F ; G 
-__code_crt0_sccz80_size         = $0151 ; G 
-__data_compiler_size            = $0468 ; G 
-__rodata_compiler_size          = $0AEF ; G 
-__code_compiler_size            = $3649 ; G 
-__size                          = $51B3 ; G 
-STACKPTR                        = $5E88 ; L crt0_base
-__head                          = $5E88 ; G 
-_reynolds                       = $5E9B ; L printlib
-_print_string                   = $619B ; G printlib
-Print_String_0                  = $61A5 ; L printlib
-_print_char                     = $61B2 ; G printlib
-Get_Char_Address                = $61C1 ; L printlib
-Get_Pixel_Address               = $61D1 ; L printlib
-Pixel_Address_Down              = $61F1 ; L printlib
-Pixel_Address_Up                = $6200 ; L printlib
-Print_Char                      = $6211 ; L printlib
-Print_Char_1                    = $6229 ; L printlib
-_setAttr                        = $6232 ; G printlib
-_putPixel                       = $624B ; G printlib
-_drawLine                       = $625D ; G printlib
-Draw_Line_1                     = $626F ; L printlib
-Draw_Line_X1                    = $628E ; L printlib
-Draw_Line_X2                    = $629B ; L printlib
-Draw_Line_Q                     = $62A8 ; L printlib
-Draw_Line_Q1                    = $62AC ; L printlib
-Draw_Line_Q1_L                  = $62B5 ; L printlib
-Draw_Line_Q1_M1                 = $62BD ; L printlib
-Draw_Line_Q1_M2                 = $62C3 ; L printlib
-Draw_Line_Q1_M3                 = $62C7 ; L printlib
-Draw_Line_Q1_S                  = $62C8 ; L printlib
-Draw_Line_P                     = $62CA ; L printlib
-Draw_Line_Q2                    = $62CE ; L printlib
-Draw_Line_Q2_L                  = $62D4 ; L printlib
-Draw_Line_Q2_M1                 = $62DB ; L printlib
-Draw_Line_Q2_M2                 = $62DD ; L printlib
-Draw_Line_Q2_M3                 = $62E1 ; L printlib
-Draw_Line_Q2_S                  = $62E2 ; L printlib
-_eraseLine                      = $62EA ; G printlib
-Erase_Line_1                    = $62FC ; L printlib
-Erase_Line_X1                   = $631B ; L printlib
-Erase_Line_X2                   = $6328 ; L printlib
-Erase_Line_Q                    = $6339 ; L printlib
-Erase_Line_Q1                   = $633D ; L printlib
-Erase_Line_Q1_L                 = $6346 ; L printlib
-Erase_Line_Q1_M1                = $634E ; L printlib
-Erase_Line_Q1_M2                = $6354 ; L printlib
-Erase_Line_Q1_M3                = $6358 ; L printlib
-Erase_Line_Q1_S                 = $6359 ; L printlib
-Erase_Line_P                    = $635B ; L printlib
-Erase_Line_Q2                   = $635F ; L printlib
-Erase_Line_Q2_L                 = $6365 ; L printlib
-Erase_Line_Q2_M1                = $636C ; L printlib
-Erase_Line_Q2_M2                = $636E ; L printlib
-Erase_Line_Q2_M3                = $6372 ; L printlib
-Erase_Line_Q2_S                 = $6373 ; L printlib
-Plot_Point                      = $637B ; L printlib
-Unplot_Point                    = $6383 ; L printlib
-_pfill                          = $638B ; G printlib
-newline                         = $63A1 ; L printlib
-pseekLeft                       = $63AC ; L printlib
-pfindbitleft                    = $63B5 ; L printlib
-pseekRight                      = $63C8 ; L printlib
-pseekRight2                     = $63C9 ; L printlib
-pseekRight_cont                 = $63EA ; L printlib
-scan_line_finished              = $63F2 ; L printlib
-pfindbitRight                   = $6405 ; L printlib
-fillByte                        = $6418 ; L printlib
-fill_mask_left                  = $6432 ; L printlib
-fill_mask_right                 = $643B ; L printlib
-fill_patterns                   = $6443 ; L printlib
-_L01_img                        = $6473 ; G juego_compressed
-dzx7AgileRCS_callee             = $6661 ; G dzx7AgileRCS_callee
-asm_dzx7AgileRCS                = $6664 ; G dzx7AgileRCS_callee
-dzx7_agilercs                   = $6664 ; L dzx7AgileRCS_callee
-dzx7a_copy_byte_loop1           = $6666 ; L dzx7AgileRCS_callee
-dzx7a_main_loop1                = $666A ; L dzx7AgileRCS_callee
-dzx7a_copy_byte_loop            = $6673 ; L dzx7AgileRCS_callee
-dzx7a_main_loop                 = $6675 ; L dzx7AgileRCS_callee
-dzx7a_len_size_start            = $667B ; L dzx7AgileRCS_callee
-dzx7a_len_size_loop             = $6680 ; L dzx7AgileRCS_callee
-dzx7a_len_value_loop            = $668A ; L dzx7AgileRCS_callee
-dzx7a_len_value_start           = $6694 ; L dzx7AgileRCS_callee
-dzx7a_offset_end                = $66B8 ; L dzx7AgileRCS_callee
-dzx7a_copy_bytes                = $66CC ; L dzx7AgileRCS_callee
-dzx7a_load_bits                 = $66DD ; L dzx7AgileRCS_callee
-dzx7a_copy_byte                 = $66E1 ; L dzx7AgileRCS_callee
-dzx7a_exit                      = $66E7 ; L dzx7AgileRCS_callee
-dzx7a_convert                   = $66EA ; L dzx7AgileRCS_callee
-stdio_error_zc                  = $66FB ; G stdio_error_zc
-stdio_basechar                  = $6700 ; G stdio_basechar
-__code_compiler_head            = $6724 ; G 
-_setRAMPage                     = $6724 ; G X__libgfx_libgfx
-_setRAMBack                     = $6725 ; G X__libgfx_libgfx
-_scrollArriba                   = $6726 ; G X__libgfx_libgfx
-SA1start                        = $6732 ; L X__libgfx_libgfx
-SA1loops                        = $6761 ; L X__libgfx_libgfx
-SA1loop                         = $6763 ; L X__libgfx_libgfx
-notfillzero                     = $676D ; L X__libgfx_libgfx
-nextscan                        = $677A ; L X__libgfx_libgfx
-nextrow                         = $6783 ; L X__libgfx_libgfx
-_drawRectangle                  = $6794 ; G X__libgfx_libgfx
-_clsScreen                      = $6795 ; G X__libgfx_libgfx
-_drawGFX                        = $6799 ; G X__libgfx_libgfx
-_drawSprite                     = $679A ; G X__libgfx_libgfx
-Wait_For_Keys_Pressed           = $67A2 ; L X__libgfx_libgfx
-_waitForAnyKey                  = $67A2 ; G X__libgfx_libgfx
-Wait_For_Keys_NotPressed        = $67AB ; L X__libgfx_libgfx
-_waitForNoKey                   = $67AB ; G X__libgfx_libgfx
-_randomNumber                   = $67B4 ; G X__libgfx_libgfx
-Read_Keyboard                   = $67B5 ; L X__libgfx_libgfx
-_getKey                         = $67B5 ; G X__libgfx_libgfx
-Read_Keyboard_0                 = $67BF ; L X__libgfx_libgfx
-Read_Keyboard_1                 = $67C7 ; L X__libgfx_libgfx
-nokey                           = $67D5 ; L X__libgfx_libgfx
-Read_Keyboard_2                 = $67DF ; L X__libgfx_libgfx
-Return_Keyboard                 = $67EC ; L X__libgfx_libgfx
-Keyboard_Map                    = $67F0 ; L X__libgfx_libgfx
-_clearchar                      = $6821 ; G X__libgfx_libgfx
-_clearScreen                    = $6854 ; G X__libgfx_libgfx
-_fzx_setat                      = $6883 ; G X__libgfx_libgfx
-_fzx_putc                       = $689D ; G X__libgfx_libgfx
-_fzx_puts                       = $68B5 ; G X__libgfx_libgfx
-_paint_pic                      = $68CC ; G X__libgfx_libgfx
-i_2                             = $68EA ; L X__libgfx_libgfx
-i_5                             = $6907 ; L X__libgfx_libgfx
-i_6_i_5                         = $690A ; L X__libgfx_libgfx
-i_7                             = $691C ; L X__libgfx_libgfx
-i_8                             = $6968 ; L X__libgfx_libgfx
-i_9                             = $69C8 ; L X__libgfx_libgfx
-i_10                            = $6A08 ; L X__libgfx_libgfx
-i_11                            = $6A48 ; L X__libgfx_libgfx
-i_4                             = $6A48 ; L X__libgfx_libgfx
-i_14                            = $6AB7 ; L X__libgfx_libgfx
-i_15                            = $6AD8 ; L X__libgfx_libgfx
-i_16                            = $6B2F ; L X__libgfx_libgfx
-i_17                            = $6B50 ; L X__libgfx_libgfx
-i_13                            = $6B5C ; L X__libgfx_libgfx
-i_18                            = $6B74 ; L X__libgfx_libgfx
-i_12                            = $6B7D ; L X__libgfx_libgfx
-i_20                            = $6B8C ; L X__libgfx_libgfx
-i_22                            = $6B9F ; L X__libgfx_libgfx
-i_23_i_22                       = $6BA2 ; L X__libgfx_libgfx
-i_19                            = $6C1B ; L X__libgfx_libgfx
-i_25                            = $6C38 ; L X__libgfx_libgfx
-i_26_i_25                       = $6C3B ; L X__libgfx_libgfx
-i_24                            = $6C78 ; L X__libgfx_libgfx
-i_28                            = $6C95 ; L X__libgfx_libgfx
-i_29_i_28                       = $6C98 ; L X__libgfx_libgfx
-i_27                            = $6CD9 ; L X__libgfx_libgfx
-i_3                             = $6CE9 ; L X__libgfx_libgfx
-_initParser                     = $6CF0 ; G parser
-i_17                            = $6D56 ; L parser
-i_20                            = $6DB6 ; L parser
-i_19                            = $6DBE ; L parser
-i_18                            = $6DC1 ; L parser
-i_22                            = $6DC8 ; L parser
-i_23                            = $6E04 ; L parser
-i_24                            = $6E0B ; L parser
-i_25                            = $6E28 ; L parser
-_ParserLoop                     = $6E36 ; G parser
-i_26                            = $6E38 ; L parser
-i_30                            = $6ECD ; L parser
-i_32                            = $6EE6 ; L parser
-i_34                            = $6EEB ; L parser
-i_36                            = $6F39 ; L parser
-i_37_i_36                       = $6F3C ; L parser
-i_35                            = $6F5A ; L parser
-i_33                            = $6F5D ; L parser
-i_31                            = $6F60 ; L parser
-i_29                            = $6F83 ; L parser
-i_28                            = $6F89 ; L parser
-i_38                            = $6F89 ; L parser
-i_40                            = $6FAE ; L parser
-i_39                            = $6FB9 ; L parser
-i_27                            = $6FBC ; L parser
-_ACCNextWord                    = $6FBF ; G parser
-i_41                            = $6FD7 ; L parser
-i_43                            = $6FED ; L parser
-i_44_i_43                       = $6FF0 ; L parser
-i_46                            = $7041 ; L parser
-i_45                            = $704D ; L parser
-i_48                            = $7052 ; L parser
-i_42                            = $705D ; L parser
-i_49                            = $707E ; L parser
-i_50                            = $7084 ; L parser
-_ACCGetWord                     = $7087 ; G parser
-i_51                            = $7096 ; L parser
-i_53                            = $70B4 ; L parser
-i_54_i_53                       = $70B7 ; L parser
-i_52                            = $70BD ; L parser
-_parse                          = $70BE ; G parser
-i_55                            = $70F0 ; L parser
-i_58                            = $711B ; L parser
-i_59_i_58                       = $711E ; L parser
-i_57                            = $7121 ; L parser
-i_62                            = $7141 ; L parser
-i_63_i_62                       = $7144 ; L parser
-i_61                            = $7147 ; L parser
-i_66                            = $7167 ; L parser
-i_67_i_66                       = $716A ; L parser
-i_65                            = $716D ; L parser
-i_70                            = $718D ; L parser
-i_71_i_70                       = $7190 ; L parser
-i_69                            = $7193 ; L parser
-i_60                            = $71B3 ; L parser
-i_64                            = $71B3 ; L parser
-i_68                            = $71B3 ; L parser
-i_72                            = $71B3 ; L parser
-i_73                            = $71B3 ; L parser
-i_74                            = $71B3 ; L parser
-i_75_i_74                       = $71B3 ; L parser
-i_77                            = $71C5 ; L parser
-i_78_i_77                       = $71C8 ; L parser
-i_76                            = $71D9 ; L parser
-i_56                            = $71DC ; L parser
-_writeValue                     = $71DD ; G parser
-_buscador                       = $7200 ; G parser
-i_79                            = $7210 ; L parser
-i_81                            = $7239 ; L parser
-i_82                            = $7285 ; L parser
-i_80                            = $7290 ; L parser
-_ACCdesc                        = $72A1 ; G parser
-_ACCdone                        = $72AC ; G parser
-_ACCbreak                       = $72B4 ; G parser
-_CNDat                          = $72C1 ; G parser
-i_83                            = $72D2 ; L parser
-i_84                            = $72D7 ; L parser
-_CNDnotat                       = $72D9 ; G parser
-_CNDatgt                        = $72EA ; G parser
-i_85                            = $7300 ; L parser
-i_86                            = $7305 ; L parser
-_CNDatlt                        = $7307 ; G parser
-i_87                            = $731D ; L parser
-i_88                            = $7322 ; L parser
-_CNDpresent                     = $7324 ; G parser
-i_89                            = $7380 ; L parser
-i_90                            = $7391 ; L parser
-i_91                            = $73A2 ; L parser
-i_93                            = $73BF ; L parser
-i_94                            = $73C2 ; L parser
-i_95                            = $73E4 ; L parser
-i_96_i_95                       = $73E7 ; L parser
-i_97                            = $73FD ; L parser
-i_99                            = $7441 ; L parser
-i_100_i_99                      = $7444 ; L parser
-i_98                            = $744B ; L parser
-i_102                           = $7475 ; L parser
-i_103_i_102                     = $7478 ; L parser
-i_101                           = $747F ; L parser
-i_92                            = $747F ; L parser
-_CNDabsent                      = $7486 ; G parser
-i_104                           = $749C ; L parser
-i_105                           = $74A1 ; L parser
-_CNDworn                        = $74A3 ; G parser
-i_106                           = $74BF ; L parser
-_CNDnotworn                     = $74C4 ; G parser
-i_107                           = $74DA ; L parser
-i_108                           = $74DF ; L parser
-_CNDnotcarr                     = $74E1 ; G parser
-i_109                           = $74F5 ; L parser
-i_110                           = $74F9 ; L parser
-_CNDchance                      = $74FA ; G parser
-_CNDtimeout                     = $74FB ; G parser
-_CNDisat                        = $74FC ; G parser
-i_111                           = $7527 ; L parser
-i_112                           = $752B ; L parser
-_CNDisnotat                     = $752C ; G parser
-_CNDprep                        = $7548 ; G parser
-_CNDsame                        = $755D ; G parser
-_CNDnotsame                     = $757A ; G parser
-_CNDweight                      = $7597 ; G parser
-_ACCinven                       = $7598 ; G parser
-i_113                           = $75CD ; L parser
-i_114                           = $75DF ; L parser
-i_116                           = $75E4 ; L parser
-i_120                           = $7668 ; L parser
-i_121                           = $766B ; L parser
-i_119                           = $7672 ; L parser
-i_122                           = $7675 ; L parser
-i_118                           = $768F ; L parser
-i_117                           = $7698 ; L parser
-i_123                           = $76C4 ; L parser
-i_125                           = $76EA ; L parser
-i_127                           = $7705 ; L parser
-i_124                           = $7720 ; L parser
-i_128                           = $7720 ; L parser
-i_115                           = $7723 ; L parser
-_ACCquit                        = $7739 ; G parser
-_ACCend                         = $7745 ; G parser
-_ACCok                          = $774D ; G parser
-_ACCramsave                     = $775B ; G parser
-_ACCramload                     = $775C ; G parser
-_ACCsave                        = $775D ; G parser
-_ACCload                        = $775E ; G parser
-_ACCturns                       = $775F ; G parser
-i_129                           = $7796 ; L parser
-_ACCscore                       = $779E ; G parser
-i_130                           = $77D0 ; L parser
-_ACCcls                         = $77D8 ; G parser
-_ACCautog                       = $77F4 ; G parser
-i_133                           = $7844 ; L parser
-i_134                           = $7847 ; L parser
-i_132                           = $7857 ; L parser
-i_131                           = $7863 ; L parser
-_ACCautod                       = $7871 ; G parser
-i_135                           = $78A5 ; L parser
-i_136                           = $78D8 ; L parser
-_ACCpause                       = $78E6 ; G parser
-_ACCgoto                        = $78E7 ; G parser
-_ACCclearexit                   = $78FC ; G parser
-i_138                           = $791C ; L parser
-i_137                           = $791D ; L parser
-_ACCgetexit                     = $7938 ; G parser
-i_142                           = $797F ; L parser
-i_143_i_142                     = $7982 ; L parser
-i_140                           = $799E ; L parser
-i_141                           = $799E ; L parser
-_ACCsetexit                     = $79A3 ; G parser
-i_144                           = $79D4 ; L parser
-_ACCmessage                     = $79D5 ; G parser
-_trytoGet                       = $79E8 ; G parser
-i_145                           = $7A0C ; L parser
-i_146                           = $7A90 ; L parser
-_ACCget                         = $7ABA ; G parser
-i_148                           = $7AEF ; L parser
-i_147                           = $7B08 ; L parser
-i_151                           = $7B30 ; L parser
-i_150                           = $7B36 ; L parser
-i_152                           = $7B36 ; L parser
-i_154                           = $7B4E ; L parser
-i_155_i_154                     = $7B51 ; L parser
-i_156                           = $7B66 ; L parser
-i_157                           = $7B6C ; L parser
-i_153                           = $7B6F ; L parser
-i_158                           = $7B8E ; L parser
-_ACCdrop                        = $7B94 ; G parser
-i_159                           = $7BD4 ; L parser
-i_160                           = $7C05 ; L parser
-i_161                           = $7C56 ; L parser
-_ACCdestroy                     = $7C5C ; G parser
-_ACCcreate                      = $7C73 ; G parser
-_ACCswap                        = $7C8D ; G parser
-_ACCplace                       = $7CE5 ; G parser
-i_163                           = $7CF4 ; L parser
-i_162                           = $7D0F ; L parser
-i_165                           = $7D2A ; L parser
-_ACCnewline                     = $7D2B ; G parser
-_ACCwriteText                   = $7D2F ; G parser
-_ACCwrite                       = $7D44 ; G parser
-_ACCwriteln                     = $7D4A ; G parser
-_ACCsysmess                     = $7D53 ; G parser
-_ACCcopyof                      = $7D60 ; G parser
-_ACCcopyoo                      = $7D61 ; G parser
-_ACCcopyfo                      = $7D62 ; G parser
-_ACCcopyff                      = $7D63 ; G parser
-_ACClistat                      = $7D64 ; G parser
-i_166                           = $7E19 ; L parser
-i_167                           = $7E25 ; L parser
-i_169                           = $7E2A ; L parser
-i_172                           = $7EA6 ; L parser
-i_173_i_172                     = $7EA9 ; L parser
-i_175                           = $7EDC ; L parser
-i_176_i_175                     = $7EDF ; L parser
-i_174                           = $7EE5 ; L parser
-i_177                           = $7F02 ; L parser
-i_179                           = $7F1F ; L parser
-i_180_i_179                     = $7F22 ; L parser
-i_170                           = $7F28 ; L parser
-i_171                           = $7F28 ; L parser
-i_178                           = $7F28 ; L parser
-i_168                           = $7F2B ; L parser
-_ACClistnpc                     = $7F30 ; G parser
-_ACClistobj                     = $7F31 ; G parser
-i_181                           = $7FD6 ; L parser
-_ACCobjat                       = $7FD9 ; G parser
-_ACCmes                         = $7FEB ; G parser
-_ACCweigh                       = $7FFB ; G parser
-_ACCability                     = $8025 ; G parser
-_ACCweight                      = $803F ; G parser
-_ACCrandom                      = $808B ; G parser
-_ACCwhato                       = $808C ; G parser
-_ACCputo                        = $808D ; G parser
-_ACCnotdone                     = $808E ; G parser
-_ACCautop                       = $8096 ; G parser
-_ACCautot                       = $8097 ; G parser
-_CNDmove                        = $8098 ; G parser
-_ACCpicture                     = $80C2 ; G parser
-i_182                           = $8102 ; L parser
-i_183                           = $8136 ; L parser
-_ACCgraphic                     = $8138 ; G parser
-i_184                           = $8152 ; L parser
-_ACCbeep                        = $8153 ; G parser
-_ACCsound                       = $8154 ; G parser
-_CNDozero                       = $8155 ; G parser
-i_185                           = $8175 ; L parser
-_CNDonotzero                    = $8179 ; G parser
-i_186                           = $8197 ; L parser
-i_187                           = $819B ; L parser
-_ACCoset                        = $819C ; G parser
-_ACCoclear                      = $81CB ; G parser
-_CNDislight                     = $8200 ; G parser
-_CNDisnotlight                  = $8201 ; G parser
-_ACCversion                     = $820B ; G parser
-_ACCrestart                     = $820C ; G parser
-_ACCtranscript                  = $820D ; G parser
-_ACCanykey                      = $820E ; G parser
-_ACCgetkey                      = $8218 ; G parser
-_CNDobjfound                    = $8219 ; G parser
-_CNDobjnotfound                 = $821A ; G parser
-_CNDcarried                     = $821B ; G parser
-i_188                           = $8237 ; L parser
-i_189                           = $8252 ; L parser
-_ACConeg                        = $8257 ; G parser
-_findMatchingObject             = $8286 ; G parser
-i_190                           = $829C ; L parser
-i_192                           = $82A1 ; L parser
-i_194                           = $82D2 ; L parser
-i_198                           = $832B ; L parser
-i_197                           = $832D ; L parser
-i_200_i_197                     = $8330 ; L parser
-i_193                           = $8338 ; L parser
-i_196                           = $8338 ; L parser
-i_191                           = $833B ; L parser
-_isAccesibleContainer           = $8341 ; G parser
-i_201                           = $8356 ; L parser
-i_203                           = $8380 ; L parser
-i_204_i_203                     = $8383 ; L parser
-i_202                           = $8388 ; L parser
-i_206                           = $83CC ; L parser
-i_207_i_206                     = $83CF ; L parser
-i_205                           = $83D4 ; L parser
-_ACCgetReferredObject           = $83D9 ; G parser
-i_208                           = $8405 ; L parser
-i_209                           = $844D ; L parser
-i_210                           = $848A ; L parser
-i_211                           = $84CA ; L parser
-i_212                           = $84D6 ; L parser
-i_214                           = $84DB ; L parser
-i_217                           = $8530 ; L parser
-i_218                           = $8533 ; L parser
-i_216                           = $8537 ; L parser
-i_219_i_216                     = $853A ; L parser
-i_215                           = $858D ; L parser
-i_220                           = $858D ; L parser
-i_213                           = $8590 ; L parser
-_getFlag                        = $859B ; G parser
-_setFlag                        = $85A9 ; G parser
-_dropall                        = $85C0 ; G parser
-i_221                           = $85CD ; L parser
-i_223                           = $85D2 ; L parser
-i_224                           = $8606 ; L parser
-i_222                           = $8609 ; L parser
-i_225                           = $8615 ; L parser
-i_227                           = $861A ; L parser
-i_228                           = $864E ; L parser
-i_226                           = $8651 ; L parser
-_done                           = $8653 ; G parser
-_desc                           = $865B ; G parser
-_loc_here                       = $8663 ; G parser
-_get_loc_pos                    = $8669 ; G parser
-i_229                           = $8672 ; L parser
-i_231                           = $86B1 ; L parser
-i_230                           = $86BD ; L parser
-_get_obj_pos                    = $86C3 ; G parser
-i_232                           = $86DC ; L parser
-i_233                           = $86DC ; L parser
-i_235                           = $8717 ; L parser
-i_234                           = $8723 ; L parser
-_get_img_pos                    = $8729 ; G parser
-i_236                           = $8732 ; L parser
-i_238                           = $8769 ; L parser
-i_237                           = $8775 ; L parser
-_get_msg_pos                    = $877B ; G parser
-_get_table_pos                  = $8791 ; G parser
-i_239                           = $8799 ; L parser
-i_241                           = $87E1 ; L parser
-i_240                           = $87ED ; L parser
-_getObjectLocation              = $87F2 ; G parser
-i_243                           = $8827 ; L parser
-i_242                           = $8840 ; L parser
-i_245                           = $885E ; L parser
-_setObjectLocation              = $8860 ; G parser
-i_247                           = $886F ; L parser
-i_246                           = $8891 ; L parser
-i_249                           = $88C3 ; L parser
-_objectIsSupporter              = $88C4 ; G parser
-i_250                           = $88D4 ; L parser
-i_251                           = $88F4 ; L parser
-_objectIsContainer              = $88F9 ; G parser
-i_252                           = $8909 ; L parser
-i_253                           = $8929 ; L parser
-i_254                           = $892E ; L parser
-_objectIsAttr                   = $8933 ; G parser
-i_255                           = $896C ; L parser
-i_256                           = $896F ; L parser
-_getObjectWeight                = $8972 ; G parser
-i_258                           = $89B0 ; L parser
-i_259                           = $89B3 ; L parser
-i_260                           = $89C5 ; L parser
-i_261_i_260                     = $89C8 ; L parser
-i_257                           = $89E4 ; L parser
-_getLocationObjectsWeight       = $89EE ; G parser
-i_263                           = $8A1F ; L parser
-i_262                           = $8A31 ; L parser
-i_265                           = $8A50 ; L parser
-i_266                           = $8A5C ; L parser
-i_268                           = $8A61 ; L parser
-i_272                           = $8AEE ; L parser
-i_273                           = $8AF1 ; L parser
-i_269                           = $8B21 ; L parser
-i_270                           = $8B21 ; L parser
-i_271                           = $8B21 ; L parser
-i_267                           = $8B24 ; L parser
-_getObjectCountAt               = $8B30 ; G parser
-i_275                           = $8B51 ; L parser
-i_274                           = $8B63 ; L parser
-i_277                           = $8B82 ; L parser
-i_278                           = $8B8E ; L parser
-i_280                           = $8B93 ; L parser
-i_281                           = $8BDC ; L parser
-i_282                           = $8BDC ; L parser
-i_279                           = $8BDF ; L parser
-_getObjectCountAtWithAttr       = $8BEA ; G parser
-i_283                           = $8C06 ; L parser
-i_285                           = $8C0B ; L parser
-i_287                           = $8C6A ; L parser
-i_288_i_287                     = $8C6D ; L parser
-i_286                           = $8C76 ; L parser
-i_284                           = $8C79 ; L parser
-_getNPCCountAt                  = $8C80 ; G parser
-i_289                           = $8C9D ; L parser
-i_291                           = $8CA2 ; L parser
-i_293                           = $8CF7 ; L parser
-i_294_i_293                     = $8CFA ; L parser
-i_292                           = $8D03 ; L parser
-i_290                           = $8D06 ; L parser
-_objectIsNPC                    = $8D0E ; G parser
-i_295                           = $8D22 ; L parser
-i_296                           = $8D51 ; L parser
-i_297                           = $8D56 ; L parser
-_writeObject                    = $8D58 ; G parser
-i_298                           = $8E05 ; L parser
-i_302                           = $8E38 ; L parser
-i_303                           = $8E3E ; L parser
-i_301                           = $8E41 ; L parser
-i_305                           = $8E53 ; L parser
-i_304                           = $8E59 ; L parser
-i_306                           = $8E59 ; L parser
-i_300                           = $8E5C ; L parser
-i_309                           = $8E7B ; L parser
-i_310                           = $8E81 ; L parser
-i_308                           = $8E84 ; L parser
-i_312                           = $8E96 ; L parser
-i_299                           = $8E9C ; L parser
-i_307                           = $8E9C ; L parser
-i_311                           = $8E9C ; L parser
-i_313                           = $8E9C ; L parser
-_newLine                        = $8EBC ; G parser
-i_314                           = $8EEE ; L parser
-_scrollVTextWindow              = $8EEF ; G parser
-_CaptionBox                     = $8F01 ; G parser
-_writeTextCenter                = $8F07 ; G parser
-_writeTextln                    = $8F08 ; G parser
-_writeText                      = $8F14 ; G parser
-i_315                           = $8F60 ; L parser
-i_317                           = $8F7A ; L parser
-i_318_i_317                     = $8F7D ; L parser
-i_320                           = $8FA7 ; L parser
-i_322                           = $8FD7 ; L parser
-i_323_i_322                     = $8FDA ; L parser
-i_321                           = $901B ; L parser
-i_319                           = $901E ; L parser
-i_324                           = $903C ; L parser
-i_316                           = $9048 ; L parser
-i_325                           = $9054 ; L parser
-i_328                           = $90AD ; L parser
-i_330                           = $90BC ; L parser
-i_332                           = $90D8 ; L parser
-i_331                           = $90E1 ; L parser
-i_335                           = $911B ; L parser
-i_334                           = $911E ; L parser
-i_327                           = $9145 ; L parser
-i_337                           = $914E ; L parser
-i_326                           = $915A ; L parser
-_writeSysMessage                = $9161 ; G parser
-_writeMessage                   = $917B ; G parser
-_defineGraphWindow              = $9195 ; G parser
-_defineTextWindow               = $9196 ; G parser
-_clearGraphWindow               = $91C6 ; G parser
-_clearTextWindow                = $91C7 ; G parser
-i_338                           = $91EA ; L parser
-i_340                           = $91EF ; L parser
-i_341                           = $921A ; L parser
-i_343                           = $921F ; L parser
-i_344                           = $9260 ; L parser
-i_345                           = $9279 ; L parser
-i_342                           = $927C ; L parser
-i_339                           = $927F ; L parser
-_clearTextLine                  = $9281 ; G parser
-i_346                           = $928E ; L parser
-i_348                           = $9293 ; L parser
-i_347                           = $92C5 ; L parser
-_gotoxy                         = $92C7 ; G parser
-_getInput                       = $92DD ; G parser
-i_349                           = $9313 ; L parser
-i_351                           = $9329 ; L parser
-i_352_i_351                     = $932C ; L parser
-i_353                           = $9360 ; L parser
-i_355                           = $937F ; L parser
-i_354                           = $938C ; L parser
-i_350                           = $93AA ; L parser
-_fontStyle                      = $93CC ; G parser
-i_358                           = $93D4 ; L parser
-i_357                           = $93E4 ; L parser
-i_359                           = $93E4 ; L parser
-i_360                           = $93E4 ; L parser
-i_361                           = $93E4 ; L parser
-_hideGraphicsWindow             = $93E6 ; G parser
-_setConnection                  = $93FB ; G parser
-i_362                           = $9445 ; L parser
-_getConnection                  = $9446 ; G parser
-i_363                           = $9457 ; L parser
-_ACCautow                       = $947F ; G parser
-i_364                           = $94B3 ; L parser
-i_365                           = $94E6 ; L parser
-i_366                           = $9519 ; L parser
-_ACCautor                       = $9527 ; G parser
-i_367                           = $955B ; L parser
-i_368                           = $958E ; L parser
-i_369                           = $95C1 ; L parser
-_ACCremove                      = $95CF ; G parser
-i_370                           = $962D ; L parser
-i_371                           = $965E ; L parser
-i_373                           = $96B2 ; L parser
-i_372                           = $96BE ; L parser
-_ACCwear                        = $96C4 ; G parser
-i_374                           = $9704 ; L parser
-i_375                           = $9735 ; L parser
-i_377                           = $977D ; L parser
-i_376                           = $97AA ; L parser
-_ACCputin                       = $97B0 ; G parser
-i_378                           = $9805 ; L parser
-i_379                           = $9832 ; L parser
-i_381                           = $9898 ; L parser
-i_382                           = $98AC ; L parser
-i_380                           = $98C1 ; L parser
-_ACCtakeout                     = $98C3 ; G parser
-i_384                           = $990A ; L parser
-i_383                           = $9918 ; L parser
-i_387                           = $9961 ; L parser
-i_388                           = $9967 ; L parser
-i_386                           = $996C ; L parser
-i_389                           = $999F ; L parser
-i_390                           = $99BA ; L parser
-_incr16bit                      = $99D6 ; G parser
-i_391                           = $99F6 ; L parser
-_respuestas                     = $99FF ; G juego_compressed
-_respuestas_post                = $9A0A ; G juego_compressed
-i_11                            = $9A29 ; L juego_compressed
-i_12                            = $9A47 ; L juego_compressed
-i_13                            = $9A65 ; L juego_compressed
-i_15                            = $9A90 ; L juego_compressed
-i_16                            = $9A96 ; L juego_compressed
-i_14                            = $9AA2 ; L juego_compressed
-i_17                            = $9AC3 ; L juego_compressed
-i_18                            = $9AE1 ; L juego_compressed
-i_19                            = $9AFF ; L juego_compressed
-i_20                            = $9B1A ; L juego_compressed
-i_21                            = $9B35 ; L juego_compressed
-i_23                            = $9B4A ; L juego_compressed
-i_24_i_23                       = $9B4D ; L juego_compressed
-i_25                            = $9BA5 ; L juego_compressed
-i_22                            = $9BB7 ; L juego_compressed
-i_26                            = $9BB7 ; L juego_compressed
-i_27                            = $9BD3 ; L juego_compressed
-i_29                            = $9BE3 ; L juego_compressed
-i_28                            = $9BF5 ; L juego_compressed
-i_32                            = $9C15 ; L juego_compressed
-i_31                            = $9C27 ; L juego_compressed
-i_34                            = $9C45 ; L juego_compressed
-i_35                            = $9C63 ; L juego_compressed
-i_36                            = $9C7D ; L juego_compressed
-i_38                            = $9C8D ; L juego_compressed
-i_37                            = $9C9F ; L juego_compressed
-_proceso1                       = $9CB4 ; G juego_compressed
-_proceso1_post                  = $9CE5 ; G juego_compressed
-_proceso2                       = $9CF0 ; G juego_compressed
-_main                           = $9CFB ; G juego_compressed
-i_40                            = $9D33 ; L juego_compressed
-i_41                            = $9D36 ; L juego_compressed
-i_43                            = $9D66 ; L juego_compressed
-i_42                            = $9D69 ; L juego_compressed
-__bss_compiler_head             = $9D6D ; G 
-__code_compiler_tail            = $9D6D ; G 
-_fzx                            = $9D6D ; G X__libgfx_libgfx
-_flags                          = $9D6F ; G parser
-_playerInput                    = $9E6E ; G parser
-_playerWord                     = $9E8E ; G parser
-_gWord_number                   = $9EA7 ; G parser
-_gChar_number                   = $9EA8 ; G parser
-_TextWindow                     = $9EA9 ; G parser
-_GraphWindow                    = $9EAD ; G parser
-_gNUM_OBJECTS                   = $9EB1 ; G parser
-_gNUM_LOC                       = $9EB2 ; G parser
-_gLAST_OBJECT_NUMBER            = $9EB3 ; G parser
-_gNUM_IMG                       = $9EB4 ; G parser
-_gDONE_FLAG                     = $9EB5 ; G parser
-_gDESCRIBE_LOCATION_FLAG        = $9EB6 ; G parser
-_gIN_RESPONSE                   = $9EB7 ; G parser
-_gSUCCESS                       = $9EB8 ; G parser
-_gDOALL_FLAG                    = $9EB9 ; G parser
-_gPROCESS_IN_DOALL              = $9EBA ; G parser
-_gCURRENT_PROCESS               = $9EBB ; G parser
-__bss_compiler_tail             = $9EBC ; G 
-__rodata_compiler_head          = $9EBC ; G 
-_symbol_list                    = $9EBC ; G parser
-i_1                             = $9FA4 ; L parser
-i_1                             = $A24A ; L juego_compressed
-__data_compiler_head            = $A9AB ; G 
-__rodata_compiler_tail          = $A9AB ; G 
-_playerPrompt                   = $A9AB ; G parser
-_gDEBUGGER                      = $A9AD ; G parser
-_gGRAPHICSON                    = $A9AE ; G parser
-_gSOUNDSON                      = $A9AF ; G parser
-_gINTERRUPTDISABLED             = $A9B0 ; G parser
-_gSHOWWARNINGS                  = $A9B1 ; G parser
-_ginEND                         = $A9B2 ; G parser
-_ginQUIT                        = $A9B3 ; G parser
-_gENTRY_FOR_DOALL               = $A9B4 ; G parser
-_verbos_debug_t                 = $A9B5 ; G parser
-_adverbios_t                    = $A9DC ; G parser
-_preposiciones_t                = $A9F1 ; G parser
-_pronombres_t                   = $AA33 ; G parser
-_conjunciones_t                 = $AA54 ; G parser
-_imagenes_t                     = $AA6C ; G juego_compressed
-_localidades_t                  = $AA70 ; G juego_compressed
-_conexiones_t                   = $AA7A ; G juego_compressed
-_mensajes_t                     = $AA87 ; G juego_compressed
-_mensajesSistema_t              = $AA8A ; G juego_compressed
-_nombres_t                      = $AB6B ; G juego_compressed
-_verbos_t                       = $AC04 ; G juego_compressed
-_adjetivos_t                    = $ADC3 ; G juego_compressed
-_objetos_t                      = $AE08 ; G juego_compressed
-__code_clib_head                = $AE13 ; G 
-__data_compiler_tail            = $AE13 ; G 
-_utoa                           = $AE13 ; G utoa
-utoa                            = $AE13 ; G utoa
-_utoa_callee                    = $AE1E ; G utoa_callee
-utoa_callee                     = $AE1E ; G utoa_callee
-asmentry                        = $AE23 ; L utoa_callee
-_itoa_callee                    = $AE36 ; G itoa_callee
-itoa_callee                     = $AE36 ; G itoa_callee
-asmentry                        = $AE3B ; L itoa_callee
-negative                        = $AE4F ; L itoa_callee
-libentry                        = $AE5A ; L itoa_callee
-notneg                          = $AE5A ; L itoa_callee
-loop                            = $AE5B ; L itoa_callee
-nowrite0                        = $AE71 ; L itoa_callee
-exit0                           = $AE82 ; L itoa_callee
-exit1                           = $AE86 ; L itoa_callee
-_memset                         = $AE89 ; G memset
-memset                          = $AE89 ; G memset
-_memset_callee                  = $AE94 ; G memset_callee
-memset_callee                   = $AE94 ; G memset_callee
-asmentry                        = $AE98 ; L memset_callee
-_strncmp_callee                 = $AEA8 ; G strncmp_callee
-strncmp_callee                  = $AEA8 ; G strncmp_callee
-asmentry                        = $AEAC ; L strncmp_callee
-strncmp1                        = $AEB0 ; L strncmp_callee
-equal                           = $AEBD ; L strncmp_callee
-different                       = $AEC1 ; L strncmp_callee
-_strrev                         = $AEC8 ; G strrev
-strrev                          = $AEC8 ; G strrev
-revlp                           = $AEDF ; L strrev
-exit                            = $AEE8 ; L strrev
-__code_clib_tail                = $AEEA ; G 
-__code_crt0_sccz80_head         = $AEEA ; G 
-l_asr_u                         = $AEEA ; G l_asr_u
-l_asr_u_1                       = $AEEB ; L l_asr_u
-l_deneg                         = $AEF4 ; G l_deneg
-l_div_u                         = $AEFC ; G l_div_u
-entry                           = $AF00 ; L l_div_u
-l_div1                          = $AF07 ; L l_div_u
-l_div2                          = $AF11 ; L l_div_u
-l_eq                            = $AF1B ; G l_eq
-l_gint                          = $AF25 ; G l_gint
-l_gintsp                        = $AF2A ; G l_gintsp
-l_gintspsp                      = $AF32 ; G l_gintspsp
-l_glong                         = $AF3B ; G l_glong
-l_glongsp                       = $AF45 ; G l_glongsp
-l_lneg                          = $AF56 ; G l_lneg
-l_mult                          = $AF5F ; G l_mul
-l_mult1                         = $AF66 ; L l_mul
-l_mult2                         = $AF6D ; L l_mul
-l_ne                            = $AF70 ; G l_ne
-l_plong                         = $AF7B ; G l_plong
-l_sxt                           = $AF87 ; G l_sxt
-l_uge                           = $AF8C ; G l_uge
-l_compare_result                = $AF98 ; G l_compare_result
-l_ugt                           = $AF9E ; G l_ugt
-l_ule                           = $AFA8 ; G l_ule
-l_ult                           = $AFB4 ; G l_ult
-l_long_and                      = $AFBE ; G l_long_and
-l_long_lneg                     = $AFD0 ; G l_long_lneg
-l_long_lneg1                    = $AFDC ; L l_long_lneg
-l_long_or                       = $AFDF ; G l_long_or
-l_long_ugt                      = $AFF1 ; G l_long_ugt
-l_long_ugt1                     = $AFF8 ; L l_long_ugt
-l_long_ucmp                     = $AFFA ; G l_long_ucmp
-l_long_ucmp1                    = $B020 ; L l_long_ucmp
-l_long_xor                      = $B029 ; G l_long_xor
-__code_crt0_sccz80_tail         = $B03B ; G 
-__tail                          = $B03B ; G 
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           
+     00000000  _adjetivos_t                    
+     00000000  _clearScreen                    
+     00000000  _clearchar                      
+     00000000  _conexiones_t                   
+     00000000  _fzx                            
+     00000000  _fzx_puts                       
+     00000000  _fzx_setat                      
+     00000000  _getKey                         
+     00000000  _imagenes_t                     
+     00000000  _localidades_t                  
+     00000000  _mensajesSistema_t              
+     00000000  _mensajes_t                     
+     00000000  _nombres_t                      
+     00000000  _objetos_t                      
+     00000000  _print_char                     
+     00000000  _proceso1                       
+     00000000  _proceso1_post                  
+     00000000  _proceso2                       
+     00000000  _respuestas                     
+     00000000  _respuestas_post                
+     00000000  _scrollArriba                   
+     00000000  _setAttr                        
+     00000000  _setRAMBack                     
+     00000000  _setRAMPage                     
+     00000000  _verbos_t                       
+     00000000  _waitForAnyKey                  
+     00000000  _waitForNoKey                   
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__GSFINAL                      
+     00000000  l__GSINIT                       
+     00000000  l__HOME                         
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     0000014D  l__DATA                         
+     000001A9  l__INITIALIZED                  
+     000001A9  l__INITIALIZER                  
+     00000200  s__CODE                         
+     0000261A  l__CODE                         
+     00008000  s__DATA                         
+     0000814D  s__INITIALIZED                  
+     000082F6  s__GSFINAL                      
+     000082F6  s__GSINIT                       
+     000082F6  s__HOME                         
+     000082F6  s__INITIALIZER                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000200    0000261A =        9754. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000200  _initParser                        parser
+     000002FB  _ParserLoop                        parser
+     0000044C  _ACCNextWord                       parser
+     000004BA  _ACCGetWord                        parser
+     000004DE  _parse                             parser
+     000005C5  _writeValue                        parser
+     000005EE  _buscador                          parser
+     0000066D  _ACCdesc                           parser
+     00000678  _ACCdone                           parser
+     0000067E  _ACCbreak                          parser
+     00000687  _CNDat                             parser
+     0000069B  _CNDnotat                          parser
+     000006AE  _CNDatgt                           parser
+     000006C0  _CNDatlt                           parser
+     000006D2  _CNDpresent                        parser
+     000007B8  _CNDabsent                         parser
+     000007CA  _CNDworn                           parser
+     000007E5  _CNDnotworn                        parser
+     000007F7  _CNDnotcarr                        parser
+     00000809  _CNDchance                         parser
+     00000813  _CNDtimeout                        parser
+     00000816  _CNDisat                           parser
+     00000843  _CNDisnotat                        parser
+     0000085C  _CNDprep                           parser
+     00000876  _CNDsame                           parser
+     00000898  _CNDnotsame                        parser
+     000008BC  _CNDweight                         parser
+     000008BF  _ACCinven                          parser
+     000009E1  _ACCquit                           parser
+     000009EF  _ACCend                            parser
+     000009F5  _ACCok                             parser
+     00000A03  _ACCramsave                        parser
+     00000A04  _ACCramload                        parser
+     00000A05  _ACCsave                           parser
+     00000A06  _ACCload                           parser
+     00000A07  _ACCturns                          parser
+     00000A42  _ACCscore                          parser
+     00000A7B  _ACCcls                            parser
+     00000A95  _ACCautog                          parser
+     00000AE7  _ACCautod                          parser
+     00000B4D  _ACCpause                          parser
+     00000B4E  _ACCgoto                           parser
+     00000B61  _ACCclearexit                      parser
+     00000B84  _ACCgetexit                        parser
+     00000BCA  _ACCsetexit                        parser
+     00000C01  _ACCmessage                        parser
+     00000C16  _trytoGet                          parser
+     00000CC9  _ACCget                            parser
+     00000D74  _ACCdrop                           parser
+     00000E0C  _ACCdestroy                        parser
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000200    0000261A =        9754. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000E23  _ACCcreate                         parser
+     00000E43  _ACCswap                           parser
+     00000E94  _ACCplace                          parser
+     00000EED  _ACCnewline                        parser
+     00000EF0  _ACCwriteText                      parser
+     00000F0C  _ACCwrite                          parser
+     00000F16  _ACCwriteln                        parser
+     00000F22  _ACCsysmess                        parser
+     00000F2E  _ACCcopyof                         parser
+     00000F2F  _ACCcopyoo                         parser
+     00000F30  _ACCcopyfo                         parser
+     00000F31  _ACCcopyff                         parser
+     00000F32  _ACClistat                         parser
+     00001068  _ACClistnpc                        parser
+     00001069  _ACClistobj                        parser
+     000010C2  _ACCobjat                          parser
+     000010D5  _ACCmes                            parser
+     000010E8  _ACCweigh                          parser
+     00001102  _ACCability                        parser
+     00001117  _ACCweight                         parser
+     0000113B  _ACCrandom                         parser
+     0000113C  _ACCwhato                          parser
+     0000113D  _ACCputo                           parser
+     0000113E  _ACCnotdone                        parser
+     00001144  _ACCautop                          parser
+     00001145  _ACCautot                          parser
+     00001146  _CNDmove                           parser
+     00001149  _ACCpicture                        parser
+     00001177  _ACCgraphic                        parser
+     00001195  _ACCbeep                           parser
+     00001196  _ACCsound                          parser
+     00001197  _CNDozero                          parser
+     000011BC  _CNDonotzero                       parser
+     000011D4  _ACCoset                           parser
+     0000123E  _ACCoclear                         parser
+     000012B2  _CNDislight                        parser
+     000012B3  _CNDisnotlight                     parser
+     000012BE  _ACCversion                        parser
+     000012BF  _ACCrestart                        parser
+     000012C0  _ACCtranscript                     parser
+     000012C1  _ACCanykey                         parser
+     000012CC  _ACCgetkey                         parser
+     000012CD  _CNDobjfound                       parser
+     000012CE  _CNDobjnotfound                    parser
+     000012CF  _CNDcarried                        parser
+     00001304  _ACConeg                           parser
+     00001305  _findMatchingObject                parser
+     00001368  _isAccesibleContainer              parser
+     000013D0  _ACCgetReferredObject              parser
+     000014E3  _getFlag                           parser
+     000014F2  _setFlag                           parser
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000200    0000261A =        9754. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000150A  _dropall                           parser
+     00001555  _done                              parser
+     0000155B  _desc                              parser
+     00001561  _loc_here                          parser
+     00001566  _get_loc_pos                       parser
+     0000159B  _get_obj_pos                       parser
+     000015D9  _get_img_pos                       parser
+     00001607  _get_msg_pos                       parser
+     00001618  _get_table_pos                     parser
+     0000164B  _getObjectLocation                 parser
+     00001675  _setObjectLocation                 parser
+     000016CC  _objectIsSupporter                 parser
+     000016F1  _objectIsContainer                 parser
+     00001716  _objectIsAttr                      parser
+     00001772  _getObjectWeight                   parser
+     000017C2  _getLocationObjectsWeight          parser
+     00001883  _getObjectCountAt                  parser
+     000018ED  _getObjectCountAtWithAttr          parser
+     00001944  _getNPCCountAt                     parser
+     00001996  _objectIsNPC                       parser
+     000019CF  _writeObject                       parser
+     00001A95  _newLine                           parser
+     00001ADF  _scrollVTextWindow                 parser
+     00001AEF  _CaptionBox                        parser
+     00001AF9  _writeTextCenter                   parser
+     00001AFA  _writeTextln                       parser
+     00001B0D  _writeText                         parser
+     00001CF2  _writeSysMessage                   parser
+     00001D12  _writeMessage                      parser
+     00001D32  _defineGraphWindow                 parser
+     00001D33  _defineTextWindow                  parser
+     00001D5A  _clearGraphWindow                  parser
+     00001D5B  _clearTextWindow                   parser
+     00001E39  _clearTextLine                     parser
+     00001E5B  _gotoxy                            parser
+     00001E6D  _getInput                          parser
+     00001EF2  _fontStyle                         parser
+     00001EF3  _hideGraphicsWindow                parser
+     00001F03  _setConnection                     parser
+     00001F45  _getConnection                     parser
+     00001F7A  _ACCautow                          parser
+     00002005  _ACCautor                          parser
+     00002090  _ACCremove                         parser
+     00002142  _ACCwear                           parser
+     000021E1  _ACCputin                          parser
+     000022DC  _ACCtakeout                        parser
+     000023CA  _incr16bit                         parser
+     00002685  _strncmp                           _strncmp
+     000026EB  ___itoa                            
+     0000271C  ___uitoa                           
+     000027CD  ___uitobcd                         
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000200    0000261A =        9754. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002804  ___strreverse                      
+     0000280A  ___strreverse_reg                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00008000    0000014D =         333. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008000  _flags                             parser
+     000080FF  _playerInput                       parser
+     0000811F  _playerWord                        parser
+     00008138  _gWord_number                      parser
+     00008139  _gChar_number                      parser
+     0000813A  _TextWindow                        parser
+     0000813E  _GraphWindow                       parser
+     00008142  _gNUM_OBJECTS                      parser
+     00008143  _gNUM_LOC                          parser
+     00008144  _gLAST_OBJECT_NUMBER               parser
+     00008145  _gNUM_IMG                          parser
+     00008146  _gDONE_FLAG                        parser
+     00008147  _gDESCRIBE_LOCATION_FLAG           parser
+     00008148  _gIN_RESPONSE                      parser
+     00008149  _gSUCCESS                          parser
+     0000814A  _gDOALL_FLAG                       parser
+     0000814B  _gPROCESS_IN_DOALL                 parser
+     0000814C  _gCURRENT_PROCESS                  parser
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZED                        0000814D    000001A9 =         425. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000814D  _symbol_list                       parser
+     00008235  _playerPrompt                      parser
+     00008237  _gDEBUGGER                         parser
+     00008238  _gGRAPHICSON                       parser
+     00008239  _gSOUNDSON                         parser
+     0000823A  _gINTERRUPTDISABLED                parser
+     0000823B  _gSHOWWARNINGS                     parser
+     0000823C  _ginEND                            parser
+     0000823D  _ginQUIT                           parser
+     0000823E  _gENTRY_FOR_DOALL                  parser
+     0000823F  _verbos_debug_t                    parser
+     00008266  _adverbios_t                       parser
+     0000827B  _preposiciones_t                   parser
+     000082BD  _pronombres_t                      parser
+     000082DE  _conjunciones_t                    parser
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZER                        000082F6    000001A9 =         425. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+
+Files Linked                              [ module(s) ]
+
+parser.rel                                [ parser ]
+
+
+Libraries Linked                          [ object file ]
+
+D:\devel\z80\zminif\sdcc\bin\..\lib\z80/z80.lib
+                                          [ _strncmp.rel ]
+D:\devel\z80\zminif\sdcc\bin\..\lib\z80/z80.lib
+                                          [ __itoa.rel ]
+D:\devel\z80\zminif\sdcc\bin\..\lib\z80/z80.lib
+                                          [ __uitobcd.rel ]
+D:\devel\z80\zminif\sdcc\bin\..\lib\z80/z80.lib
+                                          [ __strreverse.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+
+User Base Address Definitions
+
+_CODE = 0x0200
+_DATA = 0x8000
+
+
+?ASlink-Warning-Undefined Global '_verbos_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_clearchar' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_setAttr' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_clearScreen' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_getKey' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_setRAMPage' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_mensajes_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_print_char' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_proceso1' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_waitForAnyKey' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_proceso2' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_respuestas_post' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_mensajesSistema_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_waitForNoKey' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_fzx_puts' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_localidades_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_objetos_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_nombres_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_conexiones_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_respuestas' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_proceso1_post' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_fzx_setat' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_fzx' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_imagenes_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_adjetivos_t' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_setRAMBack' referenced by module 'parser'
+
+?ASlink-Warning-Undefined Global '_scrollArriba' referenced by module 'parser'

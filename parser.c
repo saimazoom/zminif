@@ -43,11 +43,14 @@ Comandos de depuración
 
 //#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
 //#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
-//#define SPANISH
-#define ENGLISH
-#define ZX 
+//#define SPANISH  Messages in Spanish
+//#define ENGLISH Messages in English
 
 #include <string.h>
+#ifdef CPC
+	// to include __uitoa 
+	#include <stdlib.h>
+#endif 
 
 #include "symbol_list.h"
 #include "parser_defs.h"
@@ -620,6 +623,9 @@ void writeValue (unsigned int value)
     #ifdef ZX
         utoa(value,valor,10);
     #endif 
+	#ifdef CPC 
+		__uitoa(value,valor,10);
+	#endif
     writeText (valor);
 }
 
@@ -758,6 +764,7 @@ BYTE  CNDchance(BYTE percent)
 {
 	 //var val = Math.floor((Math.random()*101));
 	 //return (val<=percent);
+	 return percent;
 }
 /*
 BYTE CNDzero(BYTE flagno)
@@ -828,6 +835,7 @@ BYTE CNDverb(BYTE verbid)
 BYTE  CNDtimeout()
 {
 	// return bittest(getFlag(FLAG_TIMEOUT_SETTINGS),7);
+	return 0;
 }
 
 BYTE CNDisat(BYTE objid, BYTE locid)
@@ -858,9 +866,10 @@ BYTE CNDnotsame(BYTE flagno1,BYTE flagno2)
 	return (getFlag(flagno1) != getFlag(flagno2));
 }
 
-BYTE  CNDweight () // Devuelve el peso total de los objetos llevados por el jugador
+// Returns the total weigth of the objects carried and worn by the player
+BYTE  CNDweight () 
 {
-
+	return 0;
 }
 
 void ACCinven()
@@ -1017,9 +1026,9 @@ void  ACCscore()
 	writeSysMessage(SYSMESS_TURNS_END);
 }
 
-void  ACCcls()
+void  ACCcls(BYTE color)
 {
-	clearScreen (INK_YELLOW|PAPER_BLACK);
+	clearScreen (color);
 	fzx.x = TextWindow.x;
 	fzx.y = TextWindow.y;
 }
@@ -1037,10 +1046,10 @@ void  ACCautog()
                 //writeObject (get_obj_pos(objid));
                 //writeText(")");
                 writeSysMessage (SYSMESS_YOUCANNOTTAKE);
-                DONE;
+                ACCdone();
             }
         ACCget (objid);
-        return TRUE;
+        ACCdone();
     }
 
 	writeSysMessage(SYSMESS_CANTSEETHAT);
@@ -2258,12 +2267,19 @@ void writeTextln (BYTE *texto)
 #ifdef C64 
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
-#endifvoid  writeText (BYTE *texto) 
+#endif
+void  writeText (BYTE *texto) 
 {
 	#ifdef ZX
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
 	#endif
+	
+	#ifdef CPC
+	BYTE texto_buffer[256];
+    BYTE buffer[20]; // Buffer de palabras
+	#endif
+    
     BYTE counter=0;
     BYTE texto_counter=0;
     BYTE caracter=0;

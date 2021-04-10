@@ -21,6 +21,12 @@ There is no __CALLEE__ in CC65
 	#define __CALLEE__ 
 #endif 
 
+#ifdef CPC
+	#define __FASTCALL__ 
+	#define __CALLEE__ 
+ 
+#endif
+
 // Parser structures
 
 // Parser Structures
@@ -137,7 +143,7 @@ extern void ACCplace(BYTE objid, BYTE locno);
 extern void ACCend();
 extern void __FASTCALL__ ACCsysmess(BYTE sysno);
 extern void ACCnewline();
-extern void ACCcls();
+extern void ACCcls(BYTE color);
 extern BYTE __FASTCALL__ ACCgetReferredObject(BYTE num);
 extern void ACCputin(BYTE objid, BYTE obj2id);
 extern void ACCtakeout(BYTE objid, BYTE obj2id);

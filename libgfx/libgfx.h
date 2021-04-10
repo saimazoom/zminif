@@ -5,11 +5,16 @@
 	#define __CALLEE__ 
 #endif 
 
+#ifdef CPC
+	#define __FASTCALL__ 
+	#define __CALLEE__ 
+#endif 
+
 
 #define BYTE unsigned char
 #define WORD unsigned int
 
-#ifndef C64
+#ifdef ZX
     #define INK_BLACK      0x00
     #define INK_BLUE       0x01
     #define INK_RED        0x02

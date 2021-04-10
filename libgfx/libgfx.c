@@ -1,7 +1,7 @@
 
 // Each compiler has its own 'manias'
 
-#ifdef C64
+#if defined(C64) || defined(CPC)
      #include "./libgfx.h"
 #else 
      #include "./libgfx/libgfx.h"
@@ -54,7 +54,7 @@ void setRAMBack()
 */
 }
 
-#ifndef C64
+#ifdef ZX
 
 // Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
 // xx: Tercio

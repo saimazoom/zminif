@@ -42,6 +42,12 @@
     #define ROWS_HEIGHT 	24
 #endif
 
+#ifdef CPC 
+	#define SCREEN_WIDTH 	320
+    #define SCREEN_HEIGHT 	200 
+    #define COLS_WIDTH		40
+    #define ROWS_HEIGHT 	24
+#endif
 
 // Spectrum
 #define INK_BLACK      0x00
@@ -64,10 +70,7 @@
 
 #define BRIGHT         0x40
 #define FLASH          0x80
-#define SCREEN_WIDTH 	256
-#define SCREEN_HEIGHT 	192 
-#define COLS_WIDTH		32
-#define ROWS_HEIGHT 	24
+
 
 // C64 colors
 
