@@ -1,0 +1,10 @@
+-mjwx
+-i hello.ihx
+-b _CODE = 0x0200
+-b _DATA = 0x8000
+-k D:\devel\z80\zminif\sdcc\bin\..\lib\z80
+-l z80
+D:\devel\z80\zminif\sdcc\bin\..\lib\z80\crt0.rel
+hello.rel
+
+-e
